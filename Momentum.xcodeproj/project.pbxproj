@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52AEC341483B56D6F25588FF /* Pods_Momentum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */; };
 		A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD42612E32400E1B2F5 /* AppDelegate.swift */; };
 		A2337CD72612E32400E1B2F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD62612E32400E1B2F5 /* SceneDelegate.swift */; };
 		A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD82612E32400E1B2F5 /* LoginViewController.swift */; };
@@ -14,9 +15,12 @@
 		A2337CDE2612E32600E1B2F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDD2612E32600E1B2F5 /* Assets.xcassets */; };
 		A2337CE12612E32600E1B2F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDF2612E32600E1B2F5 /* LaunchScreen.storyboard */; };
 		A2337DCC26134C8300E1B2F5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337DCB26134C8300E1B2F5 /* MainViewController.swift */; };
+		A2337DCF2613669300E1B2F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00B69AB524E063A18BBAA4F8 /* Pods-Momentum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.debug.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.debug.xcconfig"; sourceTree = "<group>"; };
+		5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Momentum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2337CD12612E32400E1B2F5 /* Momentum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Momentum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2337CD42612E32400E1B2F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2337CD62612E32400E1B2F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +30,8 @@
 		A2337CE02612E32600E1B2F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2337CE22612E32600E1B2F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2337DCB26134C8300E1B2F5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.release.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +39,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52AEC341483B56D6F25588FF /* Pods_Momentum.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		066C14186ADCA7C3479EE76F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				00B69AB524E063A18BBAA4F8 /* Pods-Momentum.debug.xcconfig */,
+				FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7E469680F8060851268F4032 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A2337CC82612E32400E1B2F5 = {
 			isa = PBXGroup;
 			children = (
 				A2337CD32612E32400E1B2F5 /* Momentum */,
 				A2337CD22612E32400E1B2F5 /* Products */,
+				066C14186ADCA7C3479EE76F /* Pods */,
+				7E469680F8060851268F4032 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +92,7 @@
 				A2337CDD2612E32600E1B2F5 /* Assets.xcassets */,
 				A2337CDF2612E32600E1B2F5 /* LaunchScreen.storyboard */,
 				A2337CE22612E32600E1B2F5 /* Info.plist */,
+				A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */,
 			);
 			path = Momentum;
 			sourceTree = "<group>";
@@ -101,9 +128,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A2337CE52612E32600E1B2F5 /* Build configuration list for PBXNativeTarget "Momentum" */;
 			buildPhases = (
+				FD20094F71E10585AA1485CB /* [CP] Check Pods Manifest.lock */,
 				A2337CCD2612E32400E1B2F5 /* Sources */,
 				A2337CCE2612E32400E1B2F5 /* Frameworks */,
 				A2337CCF2612E32400E1B2F5 /* Resources */,
+				36AE778EEC42B3B3BC377D4A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,10 +183,53 @@
 				A2337CE12612E32600E1B2F5 /* LaunchScreen.storyboard in Resources */,
 				A2337CDE2612E32600E1B2F5 /* Assets.xcassets in Resources */,
 				A2337CDC2612E32400E1B2F5 /* Main.storyboard in Resources */,
+				A2337DCF2613669300E1B2F5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		36AE778EEC42B3B3BC377D4A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Momentum/Pods-Momentum-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Momentum/Pods-Momentum-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Momentum/Pods-Momentum-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD20094F71E10585AA1485CB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Momentum-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A2337CCD2612E32400E1B2F5 /* Sources */ = {
@@ -244,7 +316,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -299,7 +371,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -311,6 +383,7 @@
 		};
 		A2337CE62612E32600E1B2F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00B69AB524E063A18BBAA4F8 /* Pods-Momentum.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -330,6 +403,7 @@
 		};
 		A2337CE72612E32600E1B2F5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
