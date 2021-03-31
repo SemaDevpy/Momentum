@@ -99,7 +99,8 @@ class VerifyViewController: UIViewController {
         if let error = error {
            print(error.localizedDescription)
           } else {
-            print("Success")
+            let vc = MainViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
            }
         }
         

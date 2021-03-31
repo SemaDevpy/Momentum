@@ -36,6 +36,8 @@ PODS:
   - GoogleUtilities/Reachability (6.7.2):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.4.0)
+  - InputMask (6.1.0)
+  - IQKeyboardManager (6.5.6)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -45,6 +47,8 @@ PODS:
 
 DEPENDENCIES:
   - Firebase/Auth
+  - InputMask
+  - IQKeyboardManager
 
 SPEC REPOS:
   trunk:
@@ -55,6 +59,8 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - InputMask
+    - IQKeyboardManager
     - nanopb
     - PromisesObjC
 
@@ -66,9 +72,11 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  InputMask: 71d291dc54d2deaeac6512afb6ec2304228c0bb7
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
 
-PODFILE CHECKSUM: 0921883e6ca515fccc7965eafae24db2bcbe6615
+PODFILE CHECKSUM: 2dbff62668d750c7eb55813fe14fd0cbb2c35d45
 
 COCOAPODS: 1.9.1

@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import InputMask
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -51,10 +52,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
+    lazy var maskDelegate = MaskedTextFieldDelegate(primaryFormat: "+996 [000] [00] [00] [00]")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
-        textFieldNum.delegate = self
+        textFieldNum.delegate = maskDelegate
         view.addSubview(loginLabel)
         view.addSubview(textFieldNum)
         view.addSubview(myButton)
@@ -102,12 +105,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
 }
-
-
-
-
-
-
 
 
 extension LoginViewController: AuthUIDelegate {
