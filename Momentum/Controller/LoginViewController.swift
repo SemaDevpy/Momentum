@@ -9,7 +9,19 @@ import UIKit
 import FirebaseAuth
 import InputMask
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController ,UITextFieldDelegate{
+    
+    let maxInput = 13
+    
+    let invalidInputLabel : UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 64, height: 14)
+        label.text = "Invalid input"
+        label.textColor = UIColor(red: 0.967, green: 0.326, blue: 0.48, alpha: 1)
+        label.font = UIFont(name: "Roboto-Light", size: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     
     let loginLabel : UILabel = {
@@ -58,9 +70,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
         textFieldNum.delegate = maskDelegate
+        invalidInputLabel.isHidden = true
+//        textFieldNum.delegate = self
         view.addSubview(loginLabel)
         view.addSubview(textFieldNum)
         view.addSubview(myButton)
+        view.addSubview(invalidInputLabel)
         setupLayout()
     }
 
@@ -81,6 +96,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
         myButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 696).isActive = true
         
+        invalidInputLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor).isActive = true
+        invalidInputLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 595).isActive = true
+        
     }
     
 
@@ -89,6 +107,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @objc func buttonTapped(){
         guard let saveNumber = textFieldNum.text else { return }
+        let newString = saveNumber.replacingOccurrences(of: " ", with: "")
+        guard newString.count == maxInput else {
+            invalidInputLabel.isHidden = false
+            textFieldNum.layer.borderColor = UIColor(red: 0.965, green: 0.325, blue: 0.478, alpha: 0.8).cgColor
+            return
+        }
         PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
             if let error = error {
                 print("\(error.localizedDescription)")
@@ -110,3 +134,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 extension LoginViewController: AuthUIDelegate {
     
 }
+
+
+//MARK: - UITextFieldDelegate
+//extension LoginViewController : UITextFieldDelegate{
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        return false
+//    }
+//}
