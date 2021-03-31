@@ -2,7 +2,7 @@
 //  MainViewController.swift
 //  Momentum
 //
-//  Created by Syimyk on 3/30/21.
+//  Created by Syimyk on 3/31/21.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .blue
+        view.backgroundColor = .brown
     }
     
 

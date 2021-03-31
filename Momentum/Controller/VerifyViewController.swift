@@ -1,15 +1,14 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  Momentum
 //
 //  Created by Syimyk on 3/30/21.
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
-    
+class VerifyViewController: UIViewController {
     
     let loginLabel : UILabel = {
        let label = UILabel()
@@ -35,33 +34,43 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         textField.font = textField.font?.withSize(14)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.keyboardType = UIKeyboardType.phonePad
-        textField.attributedPlaceholder = NSAttributedString(string: "+996 000 00 00 00",
+        
+        
+        textField.attributedPlaceholder = NSAttributedString(string: "Code",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        
+        
+        
         return textField
     }()
     
     
     let myButton : UIButton = {
         let button = UIButton()
-        button.setTitle("Next", for: .normal)
+        button.setTitle("Login", for: .normal)
         button.layer.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1).cgColor
         button.layer.cornerRadius = 3
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
         return button
     }()
     
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
-        textFieldNum.delegate = self
+        
         view.addSubview(loginLabel)
-        view.addSubview(textFieldNum)
         view.addSubview(myButton)
+        view.addSubview(textFieldNum)
         setupLayout()
-    }
 
+    }
     
+
     func setupLayout(){
         loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -80,36 +89,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-
     
-    
-    
-    @objc func buttonTapped(){
-        guard let saveNumber = textFieldNum.text else { return }
-        PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
-            if let error = error {
-                print("\(error.localizedDescription)")
-                return
-            }
-            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
-            let rootVC = VerifyViewController()
-            let navVC = UINavigationController(rootViewController: rootVC)
-            navVC.navigationController?.navigationBar.isHidden = true
-            navVC.modalPresentationStyle = .fullScreen
-            self.present(navVC, animated: true)
+    @objc func loginBtnTapped(){
+        guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")else{return}
+        guard let code = textFieldNum.text else{return}
+        
+          let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
+          Auth.auth().signIn(with: credential) { (authResult, error) in
+        if let error = error {
+           print(error.localizedDescription)
+          } else {
+            print("Success")
+           }
         }
+        
+        
     }
     
     
-}
 
-
-
-
-
-
-
-
-extension LoginViewController: AuthUIDelegate {
-    
 }

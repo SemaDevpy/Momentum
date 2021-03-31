@@ -14,8 +14,9 @@
 		A2337CDC2612E32400E1B2F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDA2612E32400E1B2F5 /* Main.storyboard */; };
 		A2337CDE2612E32600E1B2F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDD2612E32600E1B2F5 /* Assets.xcassets */; };
 		A2337CE12612E32600E1B2F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDF2612E32600E1B2F5 /* LaunchScreen.storyboard */; };
-		A2337DCC26134C8300E1B2F5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337DCB26134C8300E1B2F5 /* MainViewController.swift */; };
+		A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */; };
 		A2337DCF2613669300E1B2F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */; };
+		A24811AF26144833005FC96F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24811AE26144833005FC96F /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,8 +30,9 @@
 		A2337CDD2612E32600E1B2F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2337CE02612E32600E1B2F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2337CE22612E32600E1B2F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A2337DCB26134C8300E1B2F5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A24811AE26144833005FC96F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.release.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,7 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				A2337CD82612E32400E1B2F5 /* LoginViewController.swift */,
-				A2337DCB26134C8300E1B2F5 /* MainViewController.swift */,
+				A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */,
+				A24811AE26144833005FC96F /* MainViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -239,7 +242,8 @@
 				A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */,
 				A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */,
 				A2337CD72612E32400E1B2F5 /* SceneDelegate.swift in Sources */,
-				A2337DCC26134C8300E1B2F5 /* MainViewController.swift in Sources */,
+				A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */,
+				A24811AF26144833005FC96F /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
