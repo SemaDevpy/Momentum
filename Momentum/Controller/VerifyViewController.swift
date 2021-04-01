@@ -10,6 +10,9 @@ import FirebaseAuth
 
 class VerifyViewController: UIViewController {
     
+    
+    
+    
     var timer : Timer!
     var count = 30
     var timerCounting = true
@@ -17,6 +20,7 @@ class VerifyViewController: UIViewController {
     var phoneNumber: String = ""
     
     //MARK: - UIElements
+    
     
     let resendLabel : UILabel = {
         let label = UILabel()
@@ -76,7 +80,7 @@ class VerifyViewController: UIViewController {
         textField.font = textField.font?.withSize(14)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.keyboardType = UIKeyboardType.phonePad
-        
+        textField.text = "123456"
         
         textField.attributedPlaceholder = NSAttributedString(string: "Code",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])

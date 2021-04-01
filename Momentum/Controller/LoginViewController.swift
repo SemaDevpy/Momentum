@@ -41,7 +41,7 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         textField.layer.cornerRadius = 3
         textField.layer.borderWidth = 0.5
         textField.textColor = .white
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
         textField.leftViewMode = .always
         textField.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8).cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
