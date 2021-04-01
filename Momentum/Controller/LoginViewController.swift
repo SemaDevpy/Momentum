@@ -50,6 +50,7 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         textField.keyboardType = UIKeyboardType.phonePad
         textField.attributedPlaceholder = NSAttributedString(string: "+996 000 00 00 00",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.text = "+996706929120"
         return textField
     }()
     
@@ -71,7 +72,7 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
         textFieldNum.delegate = maskDelegate
         invalidInputLabel.isHidden = true
-//        textFieldNum.delegate = self
+        navigationController?.navigationBar.isHidden = true
         view.addSubview(loginLabel)
         view.addSubview(textFieldNum)
         view.addSubview(myButton)
@@ -84,20 +85,20 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        textFieldNum.widthAnchor.constraint(equalToConstant: 320).isActive = true
+
         textFieldNum.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        textFieldNum.topAnchor.constraint(equalTo: view.topAnchor, constant: 537).isActive = true
+        textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109).isActive = true
         
-        myButton.widthAnchor.constraint(equalToConstant: 320).isActive = true
+
         myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        myButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 696).isActive = true
+        myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109).isActive = true
         
         invalidInputLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor).isActive = true
-        invalidInputLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 595).isActive = true
+        invalidInputLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
         
     }
     
@@ -109,6 +110,7 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         guard let saveNumber = textFieldNum.text else { return }
         let newString = saveNumber.replacingOccurrences(of: " ", with: "")
         guard newString.count == maxInput else {
+            textFieldNum.clearButtonMode = .whileEditing
             invalidInputLabel.isHidden = false
             textFieldNum.layer.borderColor = UIColor(red: 0.965, green: 0.325, blue: 0.478, alpha: 0.8).cgColor
             return
@@ -120,10 +122,8 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
             }
             UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
             let rootVC = VerifyViewController()
-            let navVC = UINavigationController(rootViewController: rootVC)
-            navVC.navigationController?.navigationBar.isHidden = true
-            navVC.modalPresentationStyle = .fullScreen
-            self.present(navVC, animated: true)
+            rootVC.phoneNumber = saveNumber
+            self.navigationController?.pushViewController(rootVC, animated: true)
         }
     }
     

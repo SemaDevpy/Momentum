@@ -10,6 +10,20 @@ import Firebase
 
 class VerifyViewController: UIViewController {
     
+    let sendCodelabel : UILabel = {
+       let label = UILabel()
+//       label.frame = CGRect(x: 0, y: 0, width: 235, height: 32)
+       label.font = label.font.withSize(14)
+       label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+       label.lineBreakMode = .byWordWrapping
+       label.numberOfLines = 0
+       label.translatesAutoresizingMaskIntoConstraints = false
+      
+        
+       return label
+    }()
+    
+    
     let loginLabel : UILabel = {
        let label = UILabel()
         label.text = "Login"
@@ -56,7 +70,7 @@ class VerifyViewController: UIViewController {
         return button
     }()
     
-    
+    var phoneNumber: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,27 +80,32 @@ class VerifyViewController: UIViewController {
         view.addSubview(loginLabel)
         view.addSubview(myButton)
         view.addSubview(textFieldNum)
+        view.addSubview(sendCodelabel)
         setupLayout()
-
+        sendCodelabel.text = "We’ve sent a code on your phone number :\(phoneNumber)"
     }
     
 
     func setupLayout(){
         loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    
         
-        textFieldNum.widthAnchor.constraint(equalToConstant: 320).isActive = true
         textFieldNum.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        textFieldNum.topAnchor.constraint(equalTo: view.topAnchor, constant: 537).isActive = true
+        textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109).isActive = true
         
-        myButton.widthAnchor.constraint(equalToConstant: 320).isActive = true
+
         myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        myButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 696).isActive = true
+        myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109).isActive = true
         
+        
+        sendCodelabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0).isActive = true
+        sendCodelabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor).isActive = true
+        sendCodelabel.bottomAnchor.constraint(equalTo: textFieldNum.topAnchor, constant: -8).isActive = true
     }
     
     
