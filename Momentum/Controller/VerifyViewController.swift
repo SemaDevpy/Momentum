@@ -6,37 +6,65 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
 
 class VerifyViewController: UIViewController {
     
+    var timer : Timer!
+    var count = 30
+    var timerCounting = true
+    
+    var phoneNumber: String = ""
+    
+    //MARK: - UIElements
+    
+    let resendLabel : UILabel = {
+        let label = UILabel()
+        //        label.text = "Resend code in 29sec"
+        label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        label.font = label.font.withSize(12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
+    let noCodeLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Didn’t get the code?"
+        label.alpha = 0.6
+        label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        label.font = label.font.withSize(12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
     let sendCodelabel : UILabel = {
-       let label = UILabel()
-//       label.frame = CGRect(x: 0, y: 0, width: 235, height: 32)
-       label.font = label.font.withSize(14)
-       label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-       label.lineBreakMode = .byWordWrapping
-       label.numberOfLines = 0
-       label.translatesAutoresizingMaskIntoConstraints = false
-      
+        let label = UILabel()
+        label.font = label.font.withSize(14)
+        label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         
-       return label
+        
+        return label
     }()
     
     
     let loginLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Login"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.font = label.font.withSize(36)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
-       return label
+        return label
     }()
     
     
     let textFieldNum : UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.layer.backgroundColor = UIColor(red: 0.172, green: 0.252, blue: 0.342, alpha: 1).cgColor
         textField.layer.cornerRadius = 3
         textField.layer.borderWidth = 0.5
@@ -70,10 +98,13 @@ class VerifyViewController: UIViewController {
         return button
     }()
     
-    var phoneNumber: String = ""
-
+    
+    //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        //        unendingLoop()
+        
+        
         self.navigationController?.navigationBar.isHidden = true
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
         
@@ -81,22 +112,59 @@ class VerifyViewController: UIViewController {
         view.addSubview(myButton)
         view.addSubview(textFieldNum)
         view.addSubview(sendCodelabel)
+        view.addSubview(noCodeLabel)
+        view.addSubview(resendLabel)
         setupLayout()
         sendCodelabel.text = "We’ve sent a code on your phone number :\(phoneNumber)"
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+        
+        
+        
     }
     
-
+    
+    
+    
+    @objc func timerCounter(){
+        if count != 0{
+            count = count - 1
+            resendLabel.text = "Resend code in \(count)sec"
+        }else{
+            count = 30
+            PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: self) { (verificationID, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
+            }
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
+    
+    //MARK: - setupLayout
     func setupLayout(){
         loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    
+        
         
         textFieldNum.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
         textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109).isActive = true
         
-
+        
         myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
         myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
@@ -106,26 +174,46 @@ class VerifyViewController: UIViewController {
         sendCodelabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0).isActive = true
         sendCodelabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor).isActive = true
         sendCodelabel.bottomAnchor.constraint(equalTo: textFieldNum.topAnchor, constant: -8).isActive = true
+        
+        noCodeLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0).isActive = true
+        noCodeLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor, constant: 0).isActive = true
+        noCodeLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
+        
+        resendLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor).isActive = true
+        resendLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
     }
     
-    
+    //MARK: - Events
     @objc func loginBtnTapped(){
         guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")else{return}
         guard let code = textFieldNum.text else{return}
-        
-          let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
-          Auth.auth().signIn(with: credential) { (authResult, error) in
-        if let error = error {
-           print(error.localizedDescription)
-          } else {
-            let vc = MainViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-           }
+        timer.invalidate()
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                let vc = MainViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
         
         
     }
     
     
+    
+}
 
+
+extension VerifyViewController: AuthUIDelegate {
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
+        timer.invalidate()
+    }
+    
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+    }
 }
