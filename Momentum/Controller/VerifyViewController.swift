@@ -204,8 +204,7 @@ class VerifyViewController: UIViewController {
     
     
 }
-
-
+//MARK: - AuthUIDelegate
 extension VerifyViewController: AuthUIDelegate {
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
         super.present(viewControllerToPresent, animated: flag, completion: completion)
