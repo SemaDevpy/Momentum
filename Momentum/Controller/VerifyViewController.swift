@@ -10,8 +10,7 @@ import FirebaseAuth
 
 class VerifyViewController: UIViewController {
     
-    
-    
+
     
     var timer : Timer!
     var count = 30
@@ -157,6 +156,8 @@ class VerifyViewController: UIViewController {
     
     
     
+    
+    
     //MARK: - setupLayout
     func setupLayout(){
         loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -219,4 +220,6 @@ extension VerifyViewController: AuthUIDelegate {
         super.dismiss(animated: flag, completion: completion)
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
     }
+    
+    
 }
