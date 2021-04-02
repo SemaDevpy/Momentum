@@ -111,7 +111,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         ]
         NSLayoutConstraint.activate(constraints)
     }
-
     
   
     

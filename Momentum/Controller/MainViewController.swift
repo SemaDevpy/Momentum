@@ -40,7 +40,8 @@ class MainViewController: UIViewController {
     let taskTableView : UITableView = {
        let tableView = UITableView()
         tableView.rowHeight = 50
-        tableView.layer.backgroundColor = UIColor(red: 0.107, green: 0.149, blue: 0.213, alpha: 1).cgColor
+        tableView.backgroundColor = UIColor(named: "myCustomColor")
+        tableView.register(MyViewCell.self, forCellReuseIdentifier: MyViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -70,8 +71,8 @@ class MainViewController: UIViewController {
             userTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
             taskTableView.topAnchor.constraint(equalTo: userTextfield.bottomAnchor, constant: 16),
-            taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             taskTableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8),
             
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -94,14 +95,20 @@ class MainViewController: UIViewController {
 
 extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath)
+//        cell.textLabel?.text = "salam"
+        cell.backgroundColor = UIColor(named: "myCustomColor")
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 57
+    }
 
     
 }
