@@ -60,28 +60,31 @@ class MainViewController: UIViewController {
         view.addSubview(userTextfield)
         view.addSubview(taskTableView)
         view.addSubview(addButton)
-        setupLayout()
+        
+        
+        //constraints
+        let constraints = [
+            userTextfield.heightAnchor.constraint(equalToConstant: 53),
+            userTextfield.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            userTextfield.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            userTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
+            taskTableView.topAnchor.constraint(equalTo: userTextfield.bottomAnchor, constant: 16),
+            taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            taskTableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8),
+            
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            addButton.heightAnchor.constraint(equalToConstant: 53),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ]
+        
+        NSLayoutConstraint.activate(constraints)
     }
     
 
-    //MARK: - setupLayout
-    
-    func setupLayout(){
-        userTextfield.heightAnchor.constraint(equalToConstant: 53).isActive = true
-        userTextfield.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        userTextfield.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        userTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        
-        taskTableView.topAnchor.constraint(equalTo: userTextfield.bottomAnchor, constant: 16).isActive = true
-        taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        taskTableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8).isActive = true
-        
-        addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        addButton.heightAnchor.constraint(equalToConstant: 53).isActive = true
-        addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
+ 
   
 
 }

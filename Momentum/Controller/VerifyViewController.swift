@@ -117,9 +117,43 @@ class VerifyViewController: UIViewController {
         view.addSubview(sendCodelabel)
         view.addSubview(noCodeLabel)
         view.addSubview(resendLabel)
-        setupLayout()
+        
         sendCodelabel.text = "We’ve sent a code on your phone number :\(phoneNumber)"
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+        
+        //Constraints
+        let constraints = [
+            loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            
+            textFieldNum.heightAnchor.constraint(equalToConstant: 50),
+            textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
+            textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109),
+            
+            
+            myButton.heightAnchor.constraint(equalToConstant: 50),
+            myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
+            myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109),
+            
+            
+            sendCodelabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0),
+            sendCodelabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor),
+            sendCodelabel.bottomAnchor.constraint(equalTo: textFieldNum.topAnchor, constant: -8),
+            
+            noCodeLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0),
+            noCodeLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor, constant: 0),
+            noCodeLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8),
+            
+            resendLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor),
+            resendLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8),
+        ]
+        
+        
+        NSLayoutConstraint.activate(constraints)
+        
         
         
         
@@ -158,35 +192,7 @@ class VerifyViewController: UIViewController {
     
     
     
-    //MARK: - setupLayout
-    func setupLayout(){
-        loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
-        
-        textFieldNum.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
-        textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109).isActive = true
-        
-        
-        myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
-        myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109).isActive = true
-        
-        
-        sendCodelabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0).isActive = true
-        sendCodelabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor).isActive = true
-        sendCodelabel.bottomAnchor.constraint(equalTo: textFieldNum.topAnchor, constant: -8).isActive = true
-        
-        noCodeLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor, constant: 0).isActive = true
-        noCodeLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor, constant: 0).isActive = true
-        noCodeLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
-        
-        resendLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor).isActive = true
-        resendLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
-    }
+
     
     //MARK: - Events
     @objc func loginBtnTapped(){

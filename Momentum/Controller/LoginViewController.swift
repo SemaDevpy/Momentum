@@ -67,6 +67,15 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
     
     lazy var maskDelegate = MaskedTextFieldDelegate(primaryFormat: "+996 [000] [00] [00] [00]")
     
+    
+    
+ 
+    
+   
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
@@ -77,30 +86,34 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         view.addSubview(textFieldNum)
         view.addSubview(myButton)
         view.addSubview(invalidInputLabel)
-        setupLayout()
+        
+
+        //constraints
+        let constraints = [
+            loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+
+            textFieldNum.heightAnchor.constraint(equalToConstant: 50),
+            textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
+            textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109),
+            
+
+            myButton.heightAnchor.constraint(equalToConstant: 50),
+            myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
+            myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109),
+            
+            invalidInputLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor),
+            invalidInputLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8)
+            
+        ]
+        NSLayoutConstraint.activate(constraints)
     }
 
     
-    func setupLayout(){
-        loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
-
-        textFieldNum.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
-        textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109).isActive = true
-        
-
-        myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28).isActive = true
-        myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27).isActive = true
-        myButton.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 109).isActive = true
-        
-        invalidInputLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor).isActive = true
-        invalidInputLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8).isActive = true
-        
-    }
+  
     
 
     
