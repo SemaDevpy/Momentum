@@ -17,7 +17,10 @@
 		A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */; };
 		A2337DCF2613669300E1B2F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */; };
 		A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23DB9B02615F5090051BA60 /* MyViewCell.swift */; };
+		A23E0A2D2619967F0008E05C /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E0A2C2619967F0008E05C /* Task.swift */; };
+		A23E0A472619F79E0008E05C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E0A462619F79E0008E05C /* Constants.swift */; };
 		A24811AF26144833005FC96F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24811AE26144833005FC96F /* MainViewController.swift */; };
+		A2B96CE42617565C00227F6E /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +37,10 @@
 		A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A23DB9B02615F5090051BA60 /* MyViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewCell.swift; sourceTree = "<group>"; };
+		A23E0A2C2619967F0008E05C /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		A23E0A462619F79E0008E05C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A24811AE26144833005FC96F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.release.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +104,7 @@
 				A2337CDF2612E32600E1B2F5 /* LaunchScreen.storyboard */,
 				A2337CE22612E32600E1B2F5 /* Info.plist */,
 				A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */,
+				A23E0A462619F79E0008E05C /* Constants.swift */,
 			);
 			path = Momentum;
 			sourceTree = "<group>";
@@ -108,6 +115,7 @@
 				A2337CD82612E32400E1B2F5 /* LoginViewController.swift */,
 				A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */,
 				A24811AE26144833005FC96F /* MainViewController.swift */,
+				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -123,6 +131,7 @@
 		A2337CEC2612E47600E1B2F5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A23E0A2C2619967F0008E05C /* Task.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,12 +251,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A23E0A2D2619967F0008E05C /* Task.swift in Sources */,
 				A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */,
 				A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */,
 				A2337CD72612E32400E1B2F5 /* SceneDelegate.swift in Sources */,
 				A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */,
 				A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */,
 				A24811AF26144833005FC96F /* MainViewController.swift in Sources */,
+				A2B96CE42617565C00227F6E /* CreateTaskViewController.swift in Sources */,
+				A23E0A472619F79E0008E05C /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

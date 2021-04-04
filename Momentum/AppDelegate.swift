@@ -16,11 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        
+        let db = Firestore.firestore()
+        print("DB IS TRIGGERED: \(db)")
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
-//        IQKeyboardManager.shared().shouldShowTextFieldPlaceholder = false
-//        IQKeyboardManager.shared().shouldHidePreviousNext = false
         return true
     }
 

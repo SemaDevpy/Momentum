@@ -9,6 +9,9 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    let tasks : [Task] = [Task(description: "Clean the room"), Task(description: "Wash the dishes"), Task(description: "Clean the hall"), Task(description: "Prepare the dinner"), Task(description: "Full Prays")] 
+    
+    
 //MARK: - UIElements
     let addButton : UIButton = {
         let button = UIButton()
@@ -16,11 +19,10 @@ class MainViewController: UIViewController {
         button.layer.cornerRadius = 3
         button.layer.backgroundColor = UIColor(red: 0.771, green: 0.53, blue: 0.247, alpha: 1).cgColor
         button.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 18)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         return button
     }()
-    
     
     let userTextfield : UITextField = {
        let textField = UITextField()
@@ -71,8 +73,8 @@ class MainViewController: UIViewController {
             userTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
             taskTableView.topAnchor.constraint(equalTo: userTextfield.bottomAnchor, constant: 16),
-            taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             taskTableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8),
             
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -84,10 +86,12 @@ class MainViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
-
- 
-  
-
+    //MARK: - add a task
+    @objc func addTapped(){
+        self.navigationController?.present(CreateTaskViewController(), animated: true, completion: nil)
+    }
+    
+    
 }
 
 
@@ -95,14 +99,14 @@ class MainViewController: UIViewController {
 
 extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath)
-//        cell.textLabel?.text = "salam"
+        let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath) as! MyViewCell
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.myLabel.text = tasks[indexPath.row].description
         return cell
     }
     

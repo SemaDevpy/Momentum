@@ -8,5 +8,6 @@ target 'Momentum' do
    pod 'IQKeyboardManager'
    pod 'Firebase/Auth'
    pod 'InputMask'
+   pod 'Firebase/Firestore'
 
 end

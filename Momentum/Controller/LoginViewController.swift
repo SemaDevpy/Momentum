@@ -137,6 +137,16 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
             rootVC.phoneNumber = saveNumber
             self.navigationController?.pushViewController(rootVC, animated: true)
         }
+        
+        //code without auth
+//        let rootVC = VerifyViewController()
+//        rootVC.phoneNumber = saveNumber
+//        self.navigationController?.pushViewController(rootVC, animated: true)
+        
+        
+        
+        
+        
     }
     
     
