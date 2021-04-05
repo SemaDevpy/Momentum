@@ -17,6 +17,28 @@ class MainViewController: UIViewController {
     
     
     //MARK: - UIElements
+    
+    let myImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "star")
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    
+    let myLabel : UILabel = {
+       let label = UILabel()
+        label.text = "215"
+        label.font = label.font.withSize(18)
+        label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
+    
     let addButton : UIButton = {
         let button = UIButton()
         button.setTitle("Add a Task", for: .normal)
@@ -36,7 +58,6 @@ class MainViewController: UIViewController {
         textField.layer.cornerRadius = 3
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
         textField.leftViewMode = .always
-        
         textField.text = "John Peterson"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -64,6 +85,8 @@ class MainViewController: UIViewController {
         view.addSubview(userTextfield)
         view.addSubview(taskTableView)
         view.addSubview(addButton)
+        userTextfield.addSubview(myImageView)
+        userTextfield.addSubview(myLabel)
         
         //reading from the Firestore
         loadTasks()
@@ -84,6 +107,15 @@ class MainViewController: UIViewController {
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             addButton.heightAnchor.constraint(equalToConstant: 53),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        
+            myImageView.widthAnchor.constraint(equalToConstant: 20),
+            myImageView.heightAnchor.constraint(equalToConstant: 20),
+            myImageView.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
+            myImageView.trailingAnchor.constraint(equalTo: userTextfield.trailingAnchor, constant: -16),
+            
+            
+            myLabel.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
+            myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
         ]
         
         NSLayoutConstraint.activate(constraints)
