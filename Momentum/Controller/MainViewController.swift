@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import Firebase
 
 class MainViewController: UIViewController {
     
-    let tasks : [Task] = [Task(description: "Clean the room"), Task(description: "Wash the dishes"), Task(description: "Clean the hall"), Task(description: "Prepare the dinner"), Task(description: "Full Prays")] 
+    let db = Firestore.firestore()
     
     
-//MARK: - UIElements
+    var tasks : [Task] = []
+    
+    
+    //MARK: - UIElements
     let addButton : UIButton = {
         let button = UIButton()
         button.setTitle("Add a Task", for: .normal)
@@ -25,11 +29,11 @@ class MainViewController: UIViewController {
     }()
     
     let userTextfield : UITextField = {
-       let textField = UITextField()
-       textField.layer.backgroundColor = UIColor(red: 0.101, green: 0.137, blue: 0.192, alpha: 1).cgColor
-       textField.font = textField.font?.withSize(18)
+        let textField = UITextField()
+        textField.layer.backgroundColor = UIColor(red: 0.101, green: 0.137, blue: 0.192, alpha: 1).cgColor
+        textField.font = textField.font?.withSize(18)
         textField.textColor = .white
-       textField.layer.cornerRadius = 3
+        textField.layer.cornerRadius = 3
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
         textField.leftViewMode = .always
         
@@ -40,7 +44,7 @@ class MainViewController: UIViewController {
     
     //tableView
     let taskTableView : UITableView = {
-       let tableView = UITableView()
+        let tableView = UITableView()
         tableView.rowHeight = 50
         tableView.backgroundColor = UIColor(named: "myCustomColor")
         tableView.register(MyViewCell.self, forCellReuseIdentifier: MyViewCell.identifier)
@@ -64,6 +68,8 @@ class MainViewController: UIViewController {
         view.addSubview(taskTableView)
         view.addSubview(addButton)
         
+        //reading from the Firestore
+        loadTasks()
         
         //constraints
         let constraints = [
@@ -92,7 +98,55 @@ class MainViewController: UIViewController {
     }
     
     
+    
+    
+    
+    //MARK: - Read of CRUD
+    func loadTasks(){
+        
+        
+        guard let user = Auth.auth().currentUser?.phoneNumber else{return}
+        
+        db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
+            
+            self.tasks = []
+            
+            if let e = error {
+                print("There was an issue retrieving data from Firestore. \(e)")
+            }else{
+                if let snapshotDocuments =  querySnapshot?.documents{
+                    for doc in snapshotDocuments{
+                        let data = doc.data()
+                        if let title = data[K.Fstore.titleField] as? String{
+                            let newTask = Task(description: title)
+                            self.tasks.append(newTask)
+                            
+                            DispatchQueue.main.async {
+                                self.taskTableView.reloadData()
+                            }
+                            
+                            
+                        }
+                        
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
 
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
@@ -113,6 +167,6 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 57
     }
-
+    
     
 }

@@ -203,9 +203,9 @@ class VerifyViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        
-        //        let vc = MainViewController()
-        //        self.navigationController?.pushViewController(vc, animated: true)
+//                self.timer.invalidate()
+//                let vc = MainViewController()
+//                self.navigationController?.pushViewController(vc, animated: true)
         
     }
     
