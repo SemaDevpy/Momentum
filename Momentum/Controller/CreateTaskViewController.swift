@@ -204,8 +204,8 @@ class CreateTaskViewController: UIViewController {
 //MARK: - Create a task event
     //creating task
     @objc func createBtnTapped(){
-        if let taskTitle = titleTextField.text, let user = Auth.auth().currentUser?.phoneNumber{
-            db.collection(K.Fstore.collectionName).addDocument(data: [K.Fstore.titleField : taskTitle, K.Fstore.userField : user]) { (error) in
+        if let taskTitle = titleTextField.text, let user = Auth.auth().currentUser?.phoneNumber, let description = descriptionTextField.text{
+            db.collection(K.Fstore.collectionName).addDocument(data: [K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description]) { (error) in
                 if let e = error{
                     print("issue saving data \(e)")
                 }else{

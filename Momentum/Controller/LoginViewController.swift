@@ -127,21 +127,21 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
             textFieldNum.layer.borderColor = UIColor(red: 0.965, green: 0.325, blue: 0.478, alpha: 0.8).cgColor
             return
         }
-        PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
-            if let error = error {
-                print("\(error.localizedDescription)")
-                return
-            }
-            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
-            let rootVC = VerifyViewController()
-            rootVC.phoneNumber = saveNumber
-            self.navigationController?.pushViewController(rootVC, animated: true)
-        }
+//        PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
+//            if let error = error {
+//                print("\(error.localizedDescription)")
+//                return
+//            }
+//            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
+//            let rootVC = VerifyViewController()
+//            rootVC.phoneNumber = saveNumber
+//            self.navigationController?.pushViewController(rootVC, animated: true)
+//        }
         
         //code without auth
-//        let rootVC = VerifyViewController()
-//        rootVC.phoneNumber = saveNumber
-//        self.navigationController?.pushViewController(rootVC, animated: true)
+        let rootVC = VerifyViewController()
+        rootVC.phoneNumber = saveNumber
+        self.navigationController?.pushViewController(rootVC, animated: true)
         
         
         

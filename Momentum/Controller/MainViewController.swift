@@ -45,16 +45,13 @@ class MainViewController: UIViewController {
     //tableView
     let taskTableView : UITableView = {
         let tableView = UITableView()
-        tableView.rowHeight = 50
         tableView.backgroundColor = UIColor(named: "myCustomColor")
         tableView.register(MyViewCell.self, forCellReuseIdentifier: MyViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    
-    
-    
+    var selectedIndexPaths: [IndexPath] = []
     
     //MARK: - viewDidload
     override func viewDidLoad() {
@@ -97,10 +94,6 @@ class MainViewController: UIViewController {
         self.navigationController?.present(CreateTaskViewController(), animated: true, completion: nil)
     }
     
-    
-    
-    
-    
     //MARK: - Read of CRUD
     func loadTasks(){
         
@@ -117,8 +110,8 @@ class MainViewController: UIViewController {
                 if let snapshotDocuments =  querySnapshot?.documents{
                     for doc in snapshotDocuments{
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String{
-                            let newTask = Task(description: title)
+                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String{
+                            let newTask = Task(title: title, description: description)
                             self.tasks.append(newTask)
                             
                             DispatchQueue.main.async {
@@ -134,20 +127,7 @@ class MainViewController: UIViewController {
             
         }
     }
-    
-    
-    
 }
-
-
-
-
-
-
-
-
-
-
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
 
@@ -160,13 +140,28 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath) as! MyViewCell
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.myLabel.text = tasks[indexPath.row].description
+        cell.myLabel.text = tasks[indexPath.row].title
+        cell.descriptionLabel.text = tasks[indexPath.row].description
+        
+        if selectedIndexPaths.contains(indexPath) {
+            cell.setupWith(isCollapsed: true)
+        } else {
+            cell.setupWith(isCollapsed: false)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 57
+        return UITableView.automaticDimension
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let index = selectedIndexPaths.firstIndex(where: { $0 == indexPath }) {
+            selectedIndexPaths.remove(at: index)
+        } else {
+            selectedIndexPaths.append(indexPath)
+        }
+        tableView.reloadRows(at: selectedIndexPaths, with: .automatic)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
 }
