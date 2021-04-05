@@ -10,10 +10,10 @@ import FirebaseAuth
 
 class VerifyViewController: UIViewController {
     
-
+    
     
     var timer : Timer!
-    var count = 30
+    var count = 20
     var timerCounting = true
     
     var phoneNumber: String = ""
@@ -105,8 +105,6 @@ class VerifyViewController: UIViewController {
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        unendingLoop()
-        
         
         self.navigationController?.navigationBar.isHidden = true
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
@@ -161,13 +159,13 @@ class VerifyViewController: UIViewController {
     
     
     
-    
+//MARK: - timerCounter
     @objc func timerCounter(){
         if count != 0{
             count = count - 1
             resendLabel.text = "Resend code in \(count)sec"
         }else{
-            count = 30
+            count = 20
             PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: self) { (verificationID, error) in
                 if let error = error {
                     print(error.localizedDescription)
@@ -176,15 +174,7 @@ class VerifyViewController: UIViewController {
                 UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
             }
             
-            
-            
-            
-            
-            
         }
-        
-        
-        
     }
     
     
@@ -192,25 +182,30 @@ class VerifyViewController: UIViewController {
     
     
     
-
+    
     
     //MARK: - Events
     @objc func loginBtnTapped(){
         guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")else{return}
         guard let code = textFieldNum.text else{return}
-        timer.invalidate()
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
-                print(error.localizedDescription)
+                let alertVC = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerCounter), userInfo: nil, repeats: true)
+                }
+                alertVC.addAction(action)
+                self.present(alertVC, animated: true)
             } else {
+                self.timer.invalidate()
                 let vc = MainViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
         
-//        let vc = MainViewController()
-//        self.navigationController?.pushViewController(vc, animated: true)
+        //        let vc = MainViewController()
+        //        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     
