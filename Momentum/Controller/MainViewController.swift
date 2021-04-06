@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     let db = Firestore.firestore()
     
     
-    var tasks : [[Task]] = [[],[],[]]
+    var tasks : [[Task]] = [[], [], []]
     
     
     //MARK: - UIElements
@@ -68,6 +68,7 @@ class MainViewController: UIViewController {
         let tableView = UITableView()
         tableView.backgroundColor = UIColor(named: "myCustomColor")
         tableView.register(MyViewCell.self, forCellReuseIdentifier: MyViewCell.identifier)
+        tableView.register(MainSectionHeader.self, forHeaderFooterViewReuseIdentifier: "MainSectionHeader")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -89,6 +90,7 @@ class MainViewController: UIViewController {
         view.addSubview(addButton)
         userTextfield.addSubview(myImageView)
         userTextfield.addSubview(myLabel)
+        
         
         //reading from the Firestore
         loadTasks()
@@ -118,9 +120,13 @@ class MainViewController: UIViewController {
             
             myLabel.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
             myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
+            
+            
+            
         ]
         
         NSLayoutConstraint.activate(constraints)
+        
     }
     
     //MARK: - add a task
@@ -135,8 +141,6 @@ class MainViewController: UIViewController {
         guard let user = Auth.auth().currentUser?.phoneNumber else{return}
         
         db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
-            
-            self.tasks = [[],[],[]]
             
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
@@ -207,16 +211,12 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
             cell.myView.layer.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1).cgColor
         }
         
-        
-      
-        
-        
-        
         if selectedIndexPaths.contains(indexPath) {
             cell.setupWith(isCollapsed: true)
         } else {
             cell.setupWith(isCollapsed: false)
         }
+        
         return cell
     }
     
@@ -236,13 +236,24 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     
  
      func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 1))
-        headerView.backgroundColor = .darkGray
-        return headerView
+        if section == tasks.count - 1 {
+            let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MainSectionHeader") as! MainSectionHeader
+            headerView.setupWith(text: "Completed")
+            return headerView
+        } else {
+            let  headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 1))
+            headerView.backgroundColor = .darkGray
+            return headerView
+        }
     }
     
      func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 2
+        if section == tasks.count - 1 {
+            return 48
+        } else {
+            return 2
+        }
+        
     }
     
     

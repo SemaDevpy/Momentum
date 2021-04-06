@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		52AEC341483B56D6F25588FF /* Pods_Momentum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */; };
 		A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD42612E32400E1B2F5 /* AppDelegate.swift */; };
-		A2337CD72612E32400E1B2F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD62612E32400E1B2F5 /* SceneDelegate.swift */; };
 		A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD82612E32400E1B2F5 /* LoginViewController.swift */; };
 		A2337CDC2612E32400E1B2F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDA2612E32400E1B2F5 /* Main.storyboard */; };
 		A2337CDE2612E32600E1B2F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2337CDD2612E32600E1B2F5 /* Assets.xcassets */; };
@@ -21,6 +20,7 @@
 		A23E0A472619F79E0008E05C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E0A462619F79E0008E05C /* Constants.swift */; };
 		A24811AF26144833005FC96F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24811AE26144833005FC96F /* MainViewController.swift */; };
 		A2B96CE42617565C00227F6E /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */; };
+		A2EDCCC8261C61DE00E9A7A8 /* MainSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +28,6 @@
 		5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Momentum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2337CD12612E32400E1B2F5 /* Momentum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Momentum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2337CD42612E32400E1B2F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A2337CD62612E32400E1B2F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A2337CD82612E32400E1B2F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A2337CDB2612E32400E1B2F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A2337CDD2612E32600E1B2F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		A23E0A462619F79E0008E05C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A24811AE26144833005FC96F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
+		A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionHeader.swift; sourceTree = "<group>"; };
 		FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.release.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				A2337CD42612E32400E1B2F5 /* AppDelegate.swift */,
-				A2337CD62612E32400E1B2F5 /* SceneDelegate.swift */,
 				A2337CEC2612E47600E1B2F5 /* Model */,
 				A2337CEB2612E46B00E1B2F5 /* View */,
 				A2337CE92612E45600E1B2F5 /* Controller */,
@@ -116,6 +115,7 @@
 				A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */,
 				A24811AE26144833005FC96F /* MainViewController.swift */,
 				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
+				A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -254,7 +254,7 @@
 				A23E0A2D2619967F0008E05C /* Task.swift in Sources */,
 				A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */,
 				A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */,
-				A2337CD72612E32400E1B2F5 /* SceneDelegate.swift in Sources */,
+				A2EDCCC8261C61DE00E9A7A8 /* MainSectionHeader.swift in Sources */,
 				A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */,
 				A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */,
 				A24811AF26144833005FC96F /* MainViewController.swift in Sources */,
