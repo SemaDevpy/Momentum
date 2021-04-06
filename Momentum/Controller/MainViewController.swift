@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     let db = Firestore.firestore()
     
     
-    var tasks : [Task] = []
+    var tasks : [[Task]] = [[],[],[]]
     
     
     //MARK: - UIElements
@@ -81,6 +81,8 @@ class MainViewController: UIViewController {
         
         taskTableView.delegate = self
         taskTableView.dataSource = self
+        taskTableView.sectionHeaderHeight = 0.0;
+        taskTableView.sectionFooterHeight = 0.0;
         
         view.addSubview(userTextfield)
         view.addSubview(taskTableView)
@@ -134,7 +136,7 @@ class MainViewController: UIViewController {
         
         db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
             
-            self.tasks = []
+            self.tasks = [[],[],[]]
             
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
@@ -144,7 +146,17 @@ class MainViewController: UIViewController {
                         let data = doc.data()
                         if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int{
                             let newTask = Task(title: title, description: description, priority: priority)
-                            self.tasks.append(newTask)
+                            
+                            switch newTask.priority{
+                            case 1:
+                                self.tasks[2].append(newTask)
+                            case 2:
+                                self.tasks[1].append(newTask)
+                            default:
+                                self.tasks[0].append(newTask)
+                            }
+                            
+                            
                             
                             DispatchQueue.main.async {
                                 self.taskTableView.reloadData()
@@ -164,19 +176,28 @@ class MainViewController: UIViewController {
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
 
 extension MainViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return tasks.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tasks[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath) as! MyViewCell
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.myLabel.text = tasks[indexPath.row].title
-        cell.descriptionLabel.text = tasks[indexPath.row].description
         
         
-        let priority = tasks[indexPath.row].priority
+        cell.myLabel.text = tasks[indexPath.section][indexPath.row].title
+        cell.descriptionLabel.text = tasks[indexPath.section][indexPath.row].description
+        
+        
+        let priority = tasks[indexPath.section][indexPath.row].priority
         switch priority{
         case 1:
             cell.myView.layer.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1).cgColor
@@ -214,7 +235,15 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     }
     
  
+     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let  headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 1))
+        headerView.backgroundColor = .darkGray
+        return headerView
+    }
     
+     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
+    }
     
     
 }
