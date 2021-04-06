@@ -12,7 +12,7 @@ import Firebase
 class CreateTaskViewController: UIViewController {
     
     let db = Firestore.firestore()
-    
+    var taskPriority = 0
 //MARK: - UIelements
     var stackView = UIStackView()
    
@@ -160,6 +160,8 @@ class CreateTaskViewController: UIViewController {
             button.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
             button.layer.cornerRadius = 3
             button.translatesAutoresizingMaskIntoConstraints = false
+            button.tag = 1
+            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
            return button
         }()
         
@@ -169,6 +171,8 @@ class CreateTaskViewController: UIViewController {
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
             button.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
             button.layer.cornerRadius = 3
+            button.tag = 2
+            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
            return button
         }()
         
@@ -179,6 +183,8 @@ class CreateTaskViewController: UIViewController {
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
             button.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
             button.layer.cornerRadius = 3
+            button.tag = 3
+            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
            return button
         }()
         
@@ -201,11 +207,21 @@ class CreateTaskViewController: UIViewController {
         stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
     
+    
+    
+    //Create event from three priority buttons
+    @objc func prioritytapped(sender : UIButton){
+        sender.showsTouchWhenHighlighted = true
+        taskPriority = sender.tag
+    }
+    
+    
+    
 //MARK: - Create a task event
     //creating task
     @objc func createBtnTapped(){
         if let taskTitle = titleTextField.text, let user = Auth.auth().currentUser?.phoneNumber, let description = descriptionTextField.text{
-            db.collection(K.Fstore.collectionName).addDocument(data: [K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description]) { (error) in
+            db.collection(K.Fstore.collectionName).addDocument(data: [K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description, K.Fstore.priorityField : taskPriority]) { (error) in
                 if let e = error{
                     print("issue saving data \(e)")
                 }else{

@@ -11,5 +11,5 @@ struct Task {
 //    let user : String 
     let title : String
     let description : String
-//    let priority : String
+    let priority : Int
 }

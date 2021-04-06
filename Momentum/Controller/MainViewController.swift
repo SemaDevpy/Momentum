@@ -142,8 +142,8 @@ class MainViewController: UIViewController {
                 if let snapshotDocuments =  querySnapshot?.documents{
                     for doc in snapshotDocuments{
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String{
-                            let newTask = Task(title: title, description: description)
+                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int{
+                            let newTask = Task(title: title, description: description, priority: priority)
                             self.tasks.append(newTask)
                             
                             DispatchQueue.main.async {
@@ -175,6 +175,22 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         cell.myLabel.text = tasks[indexPath.row].title
         cell.descriptionLabel.text = tasks[indexPath.row].description
         
+        
+        let priority = tasks[indexPath.row].priority
+        switch priority{
+        case 1:
+            cell.myView.layer.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1).cgColor
+        case 2:
+            cell.myView.layer.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1).cgColor
+        default:
+            cell.myView.layer.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1).cgColor
+        }
+        
+        
+      
+        
+        
+        
         if selectedIndexPaths.contains(indexPath) {
             cell.setupWith(isCollapsed: true)
         } else {
@@ -196,4 +212,9 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         tableView.reloadRows(at: selectedIndexPaths, with: .automatic)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
+    
+ 
+    
+    
+    
 }

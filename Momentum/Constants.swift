@@ -14,5 +14,6 @@ struct K {
         static let titleField = "Title"
         static let userField = "User"
         static let descriptionField = "Description"
+        static let priorityField = "Priority"
     }
 }
