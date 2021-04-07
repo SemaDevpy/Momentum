@@ -10,6 +10,7 @@ import Foundation
 
 struct K {
     struct Fstore {
+        static let Users = "Users"
         static let collectionName = "Tasks"
         static let completedTasks = "completedTasks"
         static let titleField = "Title"
@@ -17,5 +18,6 @@ struct K {
         static let descriptionField = "Description"
         static let priorityField = "Priority"
         static let taskID = "taskID"
+        static let status = "status"
     }
 }

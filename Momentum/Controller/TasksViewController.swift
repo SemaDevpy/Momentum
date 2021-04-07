@@ -9,10 +9,15 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 
+enum TaskStatus: String {
+    case active
+    case completed
+}
+
 class TasksViewController: UIViewController {
     
     let db = Firestore.firestore()
-    var tasks : [[Task]] = [[], [], []]
+    var tasks: [TaskList] = []
     var mainSectionHeader = MainSectionHeader()
     
     //MARK: - UIElements
@@ -128,40 +133,78 @@ class TasksViewController: UIViewController {
     }
     
     //MARK: - Read of CRUD
+    //LOADING TASKS
     func loadTasks() {
-        guard let user = Auth.auth().currentUser?.phoneNumber else{ return }
-        
-        ////
-        db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
-            self.tasks = [[], [], []]
+        guard let phoneNumber = Auth.auth().currentUser?.phoneNumber else{ return }
+//        db.collection(K.Fstore.Users).document(phoneNumber).collection(K.Fstore.collectionName)
+        db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: phoneNumber).addSnapshotListener { (querySnapshot, error) in
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
             }else{
-                if let snapshotDocuments =  querySnapshot?.documents{
-                    for doc in snapshotDocuments{
+                if let snapshotDocuments =  querySnapshot?.documents {
+                    self.tasks.removeAll()
+                    var tempTasks: [Task] = []
+                    
+                    for doc in snapshotDocuments {
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int , let id = data[K.Fstore.taskID] as? String, let user = data[K.Fstore.userField] as? String{
-                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id)
+                        if let title = data[K.Fstore.titleField] as? String,
+                           let description = data[K.Fstore.descriptionField] as? String,
+                           let priority = data[K.Fstore.priorityField] as? Int,
+                           let id = data[K.Fstore.taskID] as? String,
+                           let user = data[K.Fstore.userField] as? String,
+                           let status = data[K.Fstore.status] as? String {
                             
-                            
-                            switch newTask.priority {
-                            case 1:
-                                self.tasks[2].append(newTask)
-                            case 2:
-                                self.tasks[1].append(newTask)
-                            default:
-                                self.tasks[0].append(newTask)
-                            }
-                            DispatchQueue.main.async {
-                                self.taskTableView.reloadData()
-                            }
+                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
+                            tempTasks.append(newTask)
                         }
+                    }
+                    
+                    let sortedTasks = tempTasks.sorted(by: { $0.priority > $1.priority })
+                    
+                    let taskList = TaskList(status: .active, tasks: sortedTasks)
+                    self.tasks.append(taskList)
+                    self.loadCompletedTasks()
+                }
+            }
+        }
+        ///
+    }
+    
+    
+//LOADING COMPLETED TASKS
+    func loadCompletedTasks() {
+        guard let user = Auth.auth().currentUser?.phoneNumber else { return }
+        db.collection(K.Fstore.completedTasks).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
+            if let e = error {
+                print("There was an issue retrieving data from Firestore. \(e)")
+            } else {
+                if let snapshotDocuments =  querySnapshot?.documents {
+                    
+                    var tempTasks: [Task] = []
+                    
+                    for doc in snapshotDocuments {
+                        let data = doc.data()
+                        if let title = data[K.Fstore.titleField] as? String,
+                           let description = data[K.Fstore.descriptionField] as? String,
+                           let priority = data[K.Fstore.priorityField] as? Int,
+                           let id = data[K.Fstore.taskID] as? String,
+                           let user = data[K.Fstore.userField] as? String,
+                           let status = data[K.Fstore.status] as? String {
+                            
+                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
+                            tempTasks.append(newTask)
+                        }
+                    }
+                    
+                    let taskList = TaskList(status: .completed, tasks: tempTasks)
+                    self.tasks.append(taskList)
+                    
+                    DispatchQueue.main.async {
+                        self.taskTableView.reloadData()
                     }
                 }
             }
         }
-        
-      ///
     }
 }
 
@@ -174,7 +217,7 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks[section].count
+        return tasks[section].tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -183,10 +226,10 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        cell.myLabel.text = tasks[indexPath.section][indexPath.row].title
-        cell.descriptionLabel.text = tasks[indexPath.section][indexPath.row].description
+        cell.myLabel.text = tasks[indexPath.section].tasks[indexPath.row].title
+        cell.descriptionLabel.text = tasks[indexPath.section].tasks[indexPath.row].description
         
-        let priority = tasks[indexPath.section][indexPath.row].priority
+        let priority = tasks[indexPath.section].tasks[indexPath.row].priority
         switch priority{
         case 1:
             cell.myView.layer.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1).cgColor
@@ -226,9 +269,7 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
             headerView.delegate = self
             return headerView
         } else {
-            let  headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 1))
-            headerView.backgroundColor = .darkGray
-            return headerView
+            return nil
         }
     }
     
@@ -236,7 +277,7 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
         if section == tasks.count - 1 {
             return 48
         } else {
-            return 2
+            return CGFloat.leastNonzeroMagnitude
         }
     }
 }
@@ -249,33 +290,27 @@ extension TasksViewController : MainSectionHeaderDelegate{
 extension TasksViewController : MyViewCellDelegate{
     func checkTapped(cell: MyViewCell) {
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
-        let task = tasks[indexPath.section][indexPath.row]
+        let task = tasks[indexPath.section].tasks[indexPath.row]
         
         //adding to completed list
         db.collection(K.Fstore.completedTasks).document(task.taskID).setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID]) { (error) in
-                if let e = error{
-                    print("issue saving data \(e)")
-                }else{
-                    self.dismiss(animated: true, completion: nil)
-                }
+            if let e = error{
+                print("issue saving data \(e)")
+            }else{
+                print("Document successfully transferred!")
+            }
         }
-        
-        
-        
-        
-        
-        
-        
-        
         
         //deleting from the firestore
         db.collection(K.Fstore.collectionName).document(task.taskID).delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
+                
                 print("Document successfully removed!")
             }
         }
         loadTasks()
+        loadCompletedTasks()
     }
 }

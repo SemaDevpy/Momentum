@@ -13,9 +13,9 @@ class CreateTaskViewController: UIViewController {
     
     let db = Firestore.firestore()
     var taskPriority = 0
-//MARK: - UIelements
+    //MARK: - UIelements
     var stackView = UIStackView()
-   
+    
     let createButton : UIButton = {
         let button = UIButton()
         button.setTitle("Create a Task", for: .normal)
@@ -29,7 +29,7 @@ class CreateTaskViewController: UIViewController {
     
     
     let myLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Add a title"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
@@ -39,7 +39,7 @@ class CreateTaskViewController: UIViewController {
     }()
     
     let titleTextField : UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Title",
                                                              attributes: [NSAttributedString.Key.foregroundColor:  UIColor(red: 0.45, green: 0.506, blue: 0.571, alpha: 1)])
         textField.textColor = .white
@@ -53,7 +53,7 @@ class CreateTaskViewController: UIViewController {
     }()
     //second
     let myLabel2 : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Add a description"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
@@ -63,7 +63,7 @@ class CreateTaskViewController: UIViewController {
     }()
     
     let descriptionTextField : UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Description",
                                                              attributes: [NSAttributedString.Key.foregroundColor:  UIColor(red: 0.45, green: 0.506, blue: 0.571, alpha: 1)])
         textField.textColor = .white
@@ -80,7 +80,7 @@ class CreateTaskViewController: UIViewController {
     
     //third
     let myLabel3 : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Priority:"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
@@ -89,12 +89,12 @@ class CreateTaskViewController: UIViewController {
         return label
     }()
     
-
     
     
-   
     
-//MARK: - ViewDidLoad
+    
+    
+    //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.107, green: 0.149, blue: 0.213, alpha: 1).cgColor
@@ -137,7 +137,7 @@ class CreateTaskViewController: UIViewController {
         
         
     }
-//MARK: - Configuring the stackView
+    //MARK: - Configuring the stackView
     func configureStackView(){
         view.addSubview(stackView)
         
@@ -149,12 +149,12 @@ class CreateTaskViewController: UIViewController {
         setStackViewConstraints()
         
     }
-   
+    
     
     func addButtonsToStackView(){
         //buttons
         let button1 : UIButton = {
-           let button = UIButton()
+            let button = UIButton()
             button.setTitle("Medium", for: .normal)
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
             button.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
@@ -162,30 +162,30 @@ class CreateTaskViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.tag = 1
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-           return button
+            return button
         }()
         
         let button2 : UIButton = {
-           let button = UIButton()
+            let button = UIButton()
             button.setTitle("High", for: .normal)
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
             button.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
             button.layer.cornerRadius = 3
             button.tag = 2
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-           return button
+            return button
         }()
         
         
         let button3 : UIButton = {
-           let button = UIButton()
+            let button = UIButton()
             button.setTitle("Highest", for: .normal)
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
             button.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
             button.layer.cornerRadius = 3
             button.tag = 3
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-           return button
+            return button
         }()
         
         
@@ -217,17 +217,24 @@ class CreateTaskViewController: UIViewController {
     
     
     
-//MARK: - Create a task event
+    //MARK: - Create a task event
     //creating task
     @objc func createBtnTapped(){
         let myId = db.collection(K.Fstore.collectionName).document().documentID
         
         
-        if let taskTitle = titleTextField.text, let user = Auth.auth().currentUser?.phoneNumber, let description = descriptionTextField.text{
-            db.collection(K.Fstore.collectionName).document("\(myId)").setData([K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description, K.Fstore.priorityField : taskPriority, K.Fstore.taskID : myId]) { (error) in
-                if let e = error{
+        if let taskTitle = titleTextField.text,
+           let user = Auth.auth().currentUser?.phoneNumber,
+           let description = descriptionTextField.text {
+            db.collection(K.Fstore.collectionName).document("\(myId)").setData([K.Fstore.titleField: taskTitle,
+                                                                                K.Fstore.userField: user,
+                                                                                K.Fstore.descriptionField: description,
+                                                                                K.Fstore.priorityField: taskPriority,
+                                                                                K.Fstore.taskID: myId,
+                                                                                K.Fstore.status : "active"]) { (error) in
+                if let e = error {
                     print("issue saving data \(e)")
-                }else{
+                } else {
                     self.dismiss(animated: true, completion: nil)
                 }
             }
@@ -235,6 +242,6 @@ class CreateTaskViewController: UIViewController {
         
         
     }
-  
-
+    
+    
 }

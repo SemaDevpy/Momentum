@@ -13,4 +13,5 @@ struct Task {
     let description : String
     let priority : Int
     let taskID : String
+    let status: String
 }
