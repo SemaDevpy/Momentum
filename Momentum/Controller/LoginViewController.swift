@@ -67,15 +67,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
     
     lazy var maskDelegate = MaskedTextFieldDelegate(primaryFormat: "+996 [000] [00] [00] [00]")
     
-    
-    
- 
-    
-   
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
@@ -112,12 +103,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         NSLayoutConstraint.activate(constraints)
     }
     
-  
-    
-
-    
-    
-    
     @objc func buttonTapped(){
         guard let saveNumber = textFieldNum.text else { return }
         let newString = saveNumber.replacingOccurrences(of: " ", with: "")
@@ -127,29 +112,17 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
             textFieldNum.layer.borderColor = UIColor(red: 0.965, green: 0.325, blue: 0.478, alpha: 0.8).cgColor
             return
         }
-//        PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
-//            if let error = error {
-//                print("\(error.localizedDescription)")
-//                return
-//            }
-//            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
-//            let rootVC = VerifyViewController()
-//            rootVC.phoneNumber = saveNumber
-//            self.navigationController?.pushViewController(rootVC, animated: true)
-//        }
-        
-        //code without auth
-        let rootVC = VerifyViewController()
-        rootVC.phoneNumber = saveNumber
-        self.navigationController?.pushViewController(rootVC, animated: true)
-        
-        
-        
-        
-        
+        PhoneAuthProvider.provider().verifyPhoneNumber(saveNumber, uiDelegate: self) { (verificationID, error) in
+            if let error = error {
+                print("\(error.localizedDescription)")
+                return
+            }
+            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
+            let rootVC = VerifyViewController()
+            rootVC.phoneNumber = saveNumber
+            self.navigationController?.pushViewController(rootVC, animated: true)
+        }
     }
-    
-    
 }
 
 

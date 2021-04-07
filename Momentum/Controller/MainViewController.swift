@@ -11,10 +11,8 @@ import Firebase
 class MainViewController: UIViewController {
     
     let db = Firestore.firestore()
-    
-    
     var tasks : [[Task]] = [[], [], []]
-    
+    var mainSectionHeader = MainSectionHeader()
     
     //MARK: - UIElements
     
@@ -26,9 +24,8 @@ class MainViewController: UIViewController {
         return imageView
     }()
     
-    
     let myLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "215"
         label.font = label.font.withSize(18)
         label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
@@ -36,8 +33,6 @@ class MainViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
     
     let addButton : UIButton = {
         let button = UIButton()
@@ -91,7 +86,6 @@ class MainViewController: UIViewController {
         userTextfield.addSubview(myImageView)
         userTextfield.addSubview(myLabel)
         
-        
         //reading from the Firestore
         loadTasks()
         
@@ -111,7 +105,7 @@ class MainViewController: UIViewController {
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             addButton.heightAnchor.constraint(equalToConstant: 53),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        
+            
             myImageView.widthAnchor.constraint(equalToConstant: 20),
             myImageView.heightAnchor.constraint(equalToConstant: 20),
             myImageView.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
@@ -121,12 +115,10 @@ class MainViewController: UIViewController {
             myLabel.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
             myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
             
-            
-            
         ]
         
         NSLayoutConstraint.activate(constraints)
-        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     //MARK: - add a task
@@ -135,23 +127,22 @@ class MainViewController: UIViewController {
     }
     
     //MARK: - Read of CRUD
-    func loadTasks(){
-        
-        
-        guard let user = Auth.auth().currentUser?.phoneNumber else{return}
+    func loadTasks() {
+        guard let user = Auth.auth().currentUser?.phoneNumber else{ return }
         
         db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
-            
+            self.tasks = [[], [], []]
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
             }else{
                 if let snapshotDocuments =  querySnapshot?.documents{
                     for doc in snapshotDocuments{
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int{
+                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int {
                             let newTask = Task(title: title, description: description, priority: priority)
                             
-                            switch newTask.priority{
+                            
+                            switch newTask.priority {
                             case 1:
                                 self.tasks[2].append(newTask)
                             case 2:
@@ -159,20 +150,13 @@ class MainViewController: UIViewController {
                             default:
                                 self.tasks[0].append(newTask)
                             }
-                            
-                            
-                            
                             DispatchQueue.main.async {
                                 self.taskTableView.reloadData()
                             }
-                            
-                            
                         }
-                        
                     }
                 }
             }
-            
         }
     }
 }
@@ -180,12 +164,9 @@ class MainViewController: UIViewController {
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
 
 extension MainViewController : UITableViewDataSource, UITableViewDelegate{
-    
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return tasks.count
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks[section].count
@@ -234,11 +215,11 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
- 
-     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == tasks.count - 1 {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MainSectionHeader") as! MainSectionHeader
             headerView.setupWith(text: "Completed")
+            headerView.delegate = self
             return headerView
         } else {
             let  headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 1))
@@ -247,14 +228,18 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == tasks.count - 1 {
             return 48
         } else {
             return 2
         }
-        
     }
-    
-    
+}
+
+
+extension MainViewController : MainSectionHeaderDelegate{
+    func didTapBackView() {
+        print("Im Tapped in from Main View Controller!")
+    }
 }

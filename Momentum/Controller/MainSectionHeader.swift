@@ -1,15 +1,35 @@
 import UIKit
 
+protocol MainSectionHeaderDelegate {
+    func didTapBackView()
+}
+
 public final class MainSectionHeader: UITableViewHeaderFooterView {
     
     public lazy var titleLabel = makeTitleLabel()
     public lazy var backView = makeBackgroungView()
     
+    var delegate : MainSectionHeaderDelegate?
+    
     public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setSubviews()
         setConstraints()
+        
+        let myGesture = UITapGestureRecognizer(target: self, action: #selector(gestureFired(_:)))
+        myGesture.numberOfTapsRequired = 1
+        myGesture.numberOfTouchesRequired = 1
+        
+        backView.addGestureRecognizer(myGesture)
+        backView.isUserInteractionEnabled = true
     }
+    
+    
+    @objc func gestureFired(_ gesture: UITapGestureRecognizer){
+        delegate?.didTapBackView()
+    }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,7 +44,7 @@ public final class MainSectionHeader: UITableViewHeaderFooterView {
 
 extension MainSectionHeader {
     public func setSubviews() {
-        contentView.addSubview(backView)
+        addSubview(backView)
         backView.addSubview(titleLabel)
     }
     
@@ -47,15 +67,17 @@ extension MainSectionHeader {
 private extension MainSectionHeader {
     func makeTitleLabel() -> UILabel {
         let label = UILabel()
-        label.backgroundColor = .cyan
+        label.backgroundColor = .clear
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
     func makeBackgroungView() -> UIView {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .black
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
 }

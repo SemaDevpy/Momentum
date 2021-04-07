@@ -20,6 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
+        
+        var vc = UIViewController()
+        if let _ = Auth.auth().currentUser {
+            vc = MainViewController()
+        } else {
+            vc = LoginViewController()
+        }
+        
+        window?.rootViewController = UINavigationController(rootViewController: vc)
+        window?.makeKeyAndVisible()
+        
         return true
     }
 }

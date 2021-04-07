@@ -188,25 +188,21 @@ class VerifyViewController: UIViewController {
     @objc func loginBtnTapped(){
         guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")else{return}
         guard let code = textFieldNum.text else{return}
-//        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
-//        Auth.auth().signIn(with: credential) { (authResult, error) in
-//            if let error = error {
-//                let alertVC = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-//                let action = UIAlertAction(title: "OK", style: .default) { (action) in
-//                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerCounter), userInfo: nil, repeats: true)
-//                }
-//                alertVC.addAction(action)
-//                self.present(alertVC, animated: true)
-//            } else {
-//                self.timer.invalidate()
-//                let vc = MainViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//        }
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                let alertVC = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerCounter), userInfo: nil, repeats: true)
+                }
+                alertVC.addAction(action)
+                self.present(alertVC, animated: true)
+            } else {
                 self.timer.invalidate()
                 let vc = MainViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-        
+            }
+        }
     }
     
     
