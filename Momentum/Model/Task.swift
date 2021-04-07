@@ -8,7 +8,7 @@
 import Foundation
 
 struct Task {
-//    let user : String 
+    let user : String 
     let title : String
     let description : String
     let priority : Int

@@ -131,6 +131,7 @@ class TasksViewController: UIViewController {
     func loadTasks() {
         guard let user = Auth.auth().currentUser?.phoneNumber else{ return }
         
+        ////
         db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
             self.tasks = [[], [], []]
             if let e = error {
@@ -139,8 +140,8 @@ class TasksViewController: UIViewController {
                 if let snapshotDocuments =  querySnapshot?.documents{
                     for doc in snapshotDocuments{
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int , let id = data[K.Fstore.taskID] as? String{
-                            let newTask = Task(title: title, description: description, priority: priority, taskID: id)
+                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int , let id = data[K.Fstore.taskID] as? String, let user = data[K.Fstore.userField] as? String{
+                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id)
                             
                             
                             switch newTask.priority {
@@ -159,6 +160,8 @@ class TasksViewController: UIViewController {
                 }
             }
         }
+        
+      ///
     }
 }
 
@@ -247,6 +250,25 @@ extension TasksViewController : MyViewCellDelegate{
     func checkTapped(cell: MyViewCell) {
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
         let task = tasks[indexPath.section][indexPath.row]
+        
+        //adding to completed list
+        db.collection(K.Fstore.completedTasks).document(task.taskID).setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID]) { (error) in
+                if let e = error{
+                    print("issue saving data \(e)")
+                }else{
+                    self.dismiss(animated: true, completion: nil)
+                }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //deleting from the firestore
         db.collection(K.Fstore.collectionName).document(task.taskID).delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")

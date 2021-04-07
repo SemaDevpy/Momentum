@@ -11,6 +11,7 @@ import Foundation
 struct K {
     struct Fstore {
         static let collectionName = "Tasks"
+        static let completedTasks = "completedTasks"
         static let titleField = "Title"
         static let userField = "User"
         static let descriptionField = "Description"
