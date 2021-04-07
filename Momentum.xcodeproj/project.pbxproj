@@ -18,7 +18,7 @@
 		A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23DB9B02615F5090051BA60 /* MyViewCell.swift */; };
 		A23E0A2D2619967F0008E05C /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E0A2C2619967F0008E05C /* Task.swift */; };
 		A23E0A472619F79E0008E05C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E0A462619F79E0008E05C /* Constants.swift */; };
-		A24811AF26144833005FC96F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24811AE26144833005FC96F /* MainViewController.swift */; };
+		A24811AF26144833005FC96F /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24811AE26144833005FC96F /* TasksViewController.swift */; };
 		A2B96CE42617565C00227F6E /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */; };
 		A2EDCCC8261C61DE00E9A7A8 /* MainSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */; };
 /* End PBXBuildFile section */
@@ -38,7 +38,7 @@
 		A23DB9B02615F5090051BA60 /* MyViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewCell.swift; sourceTree = "<group>"; };
 		A23E0A2C2619967F0008E05C /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		A23E0A462619F79E0008E05C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		A24811AE26144833005FC96F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A24811AE26144833005FC96F /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionHeader.swift; sourceTree = "<group>"; };
 		FF8E38774340396558F8E96C /* Pods-Momentum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.release.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			children = (
 				A2337CD82612E32400E1B2F5 /* LoginViewController.swift */,
 				A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */,
-				A24811AE26144833005FC96F /* MainViewController.swift */,
+				A24811AE26144833005FC96F /* TasksViewController.swift */,
 				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
 				A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */,
 			);
@@ -257,7 +257,7 @@
 				A2EDCCC8261C61DE00E9A7A8 /* MainSectionHeader.swift in Sources */,
 				A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */,
 				A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */,
-				A24811AF26144833005FC96F /* MainViewController.swift in Sources */,
+				A24811AF26144833005FC96F /* TasksViewController.swift in Sources */,
 				A2B96CE42617565C00227F6E /* CreateTaskViewController.swift in Sources */,
 				A23E0A472619F79E0008E05C /* Constants.swift in Sources */,
 			);

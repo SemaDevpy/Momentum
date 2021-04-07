@@ -7,8 +7,9 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
 
-class MainViewController: UIViewController {
+class TasksViewController: UIViewController {
     
     let db = Firestore.firestore()
     var tasks : [[Task]] = [[], [], []]
@@ -138,8 +139,8 @@ class MainViewController: UIViewController {
                 if let snapshotDocuments =  querySnapshot?.documents{
                     for doc in snapshotDocuments{
                         let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int {
-                            let newTask = Task(title: title, description: description, priority: priority)
+                        if let title = data[K.Fstore.titleField] as? String, let description = data[K.Fstore.descriptionField] as? String,let priority = data[K.Fstore.priorityField] as? Int , let id = data[K.Fstore.taskID] as? String{
+                            let newTask = Task(title: title, description: description, priority: priority, taskID: id)
                             
                             
                             switch newTask.priority {
@@ -163,7 +164,8 @@ class MainViewController: UIViewController {
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
 
-extension MainViewController : UITableViewDataSource, UITableViewDelegate{
+extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
+    //TableView main methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return tasks.count
     }
@@ -174,13 +176,12 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MyViewCell.identifier, for: indexPath) as! MyViewCell
+        cell.delegate = self
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        
         cell.myLabel.text = tasks[indexPath.section][indexPath.row].title
         cell.descriptionLabel.text = tasks[indexPath.section][indexPath.row].description
-        
         
         let priority = tasks[indexPath.section][indexPath.row].priority
         switch priority{
@@ -200,7 +201,7 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         
         return cell
     }
-    
+    //tableView additional methods
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -236,9 +237,23 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
         }
     }
 }
-
-extension MainViewController : MainSectionHeaderDelegate{
+//MARK: - MainSectionHeaderDelegate
+extension TasksViewController : MainSectionHeaderDelegate{
     func didTapBackView() {
         print("Im Tapped in from Main View Controller!")
+    }
+}
+extension TasksViewController : MyViewCellDelegate{
+    func checkTapped(cell: MyViewCell) {
+        guard let indexPath = taskTableView.indexPath(for: cell) else { return }
+        let task = tasks[indexPath.section][indexPath.row]
+        db.collection(K.Fstore.collectionName).document(task.taskID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+        loadTasks()
     }
 }

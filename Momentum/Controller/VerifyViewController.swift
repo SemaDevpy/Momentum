@@ -199,7 +199,7 @@ class VerifyViewController: UIViewController {
                 self.present(alertVC, animated: true)
             } else {
                 self.timer.invalidate()
-                let vc = MainViewController()
+                let vc = TasksViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

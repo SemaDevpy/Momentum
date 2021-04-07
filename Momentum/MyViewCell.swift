@@ -7,12 +7,16 @@
 
 import UIKit
 
+protocol MyViewCellDelegate {
+    func checkTapped(cell: MyViewCell)
+}
+
 class MyViewCell: UITableViewCell {
     
-    let mainVC = MainViewController()
+    let mainVC = TasksViewController()
     
     static let identifier = "MyViewCell"
-    
+    var delegate : MyViewCellDelegate?
     var isCollapsed: Bool = false
     var descHeight: NSLayoutConstraint?
     var descBottom: NSLayoutConstraint?
@@ -34,7 +38,6 @@ class MyViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     
     let myLabel: UILabel = {
         let label = UILabel()
@@ -72,6 +75,13 @@ class MyViewCell: UITableViewCell {
         myView.addSubview(myLabel)
         myView.addSubview(descriptionLabel)
         
+        //myGesture
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:  #selector(gestureFired(_:)))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        myImageView.addGestureRecognizer(gestureRecognizer)
+        myImageView.isUserInteractionEnabled = true
+        
         
         //constraints
         let constraints = [
@@ -105,7 +115,11 @@ class MyViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
- 
+    
+    @objc func gestureFired(_ gesture: UITapGestureRecognizer){
+        delegate?.checkTapped(cell: self)
+    }
+    
     func setupWith(isCollapsed: Bool) {
         self.isCollapsed = isCollapsed
         

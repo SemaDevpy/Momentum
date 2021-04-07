@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var vc = UIViewController()
         if let _ = Auth.auth().currentUser {
-            vc = MainViewController()
+            vc = TasksViewController()
         } else {
             vc = LoginViewController()
         }

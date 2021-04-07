@@ -7,7 +7,7 @@
 
 import UIKit
 import FirebaseAuth
-import Firebase
+import FirebaseFirestore
 
 class CreateTaskViewController: UIViewController {
     
@@ -220,12 +220,14 @@ class CreateTaskViewController: UIViewController {
 //MARK: - Create a task event
     //creating task
     @objc func createBtnTapped(){
+        let myId = db.collection(K.Fstore.collectionName).document().documentID
+        
+        
         if let taskTitle = titleTextField.text, let user = Auth.auth().currentUser?.phoneNumber, let description = descriptionTextField.text{
-            db.collection(K.Fstore.collectionName).addDocument(data: [K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description, K.Fstore.priorityField : taskPriority]) { (error) in
+            db.collection(K.Fstore.collectionName).document("\(myId)").setData([K.Fstore.titleField : taskTitle, K.Fstore.userField : user, K.Fstore.descriptionField : description, K.Fstore.priorityField : taskPriority, K.Fstore.taskID : myId]) { (error) in
                 if let e = error{
                     print("issue saving data \(e)")
                 }else{
-                    print("success!")
                     self.dismiss(animated: true, completion: nil)
                 }
             }
