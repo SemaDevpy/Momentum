@@ -237,7 +237,6 @@ extension MainViewController : UITableViewDataSource, UITableViewDelegate{
     }
 }
 
-
 extension MainViewController : MainSectionHeaderDelegate{
     func didTapBackView() {
         print("Im Tapped in from Main View Controller!")
