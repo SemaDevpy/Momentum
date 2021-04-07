@@ -8,6 +8,7 @@ public final class MainSectionHeader: UITableViewHeaderFooterView {
     
     public lazy var titleLabel = makeTitleLabel()
     public lazy var backView = makeBackgroungView()
+    public lazy var imageView = makeImageView()
     
     var delegate : MainSectionHeaderDelegate?
     
@@ -46,6 +47,7 @@ extension MainSectionHeader {
     public func setSubviews() {
         addSubview(backView)
         backView.addSubview(titleLabel)
+        backView.addSubview(imageView)
     }
     
     public func setConstraints() {
@@ -57,8 +59,15 @@ extension MainSectionHeader {
             
             titleLabel.topAnchor.constraint(equalTo: backView.topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: backView.bottomAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor)
+            titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
+            
+            imageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -12),
+            imageView.heightAnchor.constraint(equalToConstant: 12),
+            imageView.widthAnchor.constraint(equalToConstant: 6),
+            imageView.topAnchor.constraint(equalTo: backView.topAnchor, constant: 12),
+
+            
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -80,4 +89,13 @@ private extension MainSectionHeader {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
+    
+    func makeImageView() -> UIImageView{
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Line")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }
+    
 }
