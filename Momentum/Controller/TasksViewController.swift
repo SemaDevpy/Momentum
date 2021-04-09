@@ -51,17 +51,22 @@ class TasksViewController: UIViewController {
         return button
     }()
     
-    let userTextfield : UITextField = {
-        let textField = UITextField()
-        textField.layer.backgroundColor = UIColor(red: 0.101, green: 0.137, blue: 0.192, alpha: 1).cgColor
-        textField.font = textField.font?.withSize(18)
-        textField.textColor = .white
-        textField.layer.cornerRadius = 3
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.text = "John Peterson"
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+    let userLabel : UILabel = {
+        let label = UILabel()
+        label.layer.backgroundColor = UIColor(red: 0.101, green: 0.137, blue: 0.192, alpha: 1).cgColor
+        label.layer.cornerRadius = 3
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
+    let userNameLabel : UILabel = {
+        let label = UILabel()
+        label.text = "John Peterson"
+        label.font = label.font.withSize(18)
+        label.textColor =  .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     //tableView
@@ -76,33 +81,47 @@ class TasksViewController: UIViewController {
     
     var selectedIndexPaths: [IndexPath] = []
     
+    
+    
+    
+    
+    
+    //viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Hide the Navigation Bar
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
-        
+        callGesture()
         taskTableView.delegate = self
         taskTableView.dataSource = self
         taskTableView.sectionHeaderHeight = 0.0;
         taskTableView.sectionFooterHeight = 0.0;
         
-        view.addSubview(userTextfield)
+        view.addSubview(userLabel)
         view.addSubview(taskTableView)
         view.addSubview(addButton)
-        userTextfield.addSubview(myImageView)
-        userTextfield.addSubview(myLabel)
+        userLabel.addSubview(myImageView)
+        userLabel.addSubview(myLabel)
+        userLabel.addSubview(userNameLabel)
         
         //reading from the Firestore
         loadTasks()
         
         //constraints
         let constraints = [
-            userTextfield.heightAnchor.constraint(equalToConstant: 53),
-            userTextfield.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            userTextfield.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            userTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            userLabel.heightAnchor.constraint(equalToConstant: 53),
+            userLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            userLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            userLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
-            taskTableView.topAnchor.constraint(equalTo: userTextfield.bottomAnchor, constant: 16),
+            taskTableView.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 16),
             taskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             taskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             taskTableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8),
@@ -114,12 +133,15 @@ class TasksViewController: UIViewController {
             
             myImageView.widthAnchor.constraint(equalToConstant: 20),
             myImageView.heightAnchor.constraint(equalToConstant: 20),
-            myImageView.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
-            myImageView.trailingAnchor.constraint(equalTo: userTextfield.trailingAnchor, constant: -16),
+            myImageView.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
+            myImageView.trailingAnchor.constraint(equalTo: userLabel.trailingAnchor, constant: -16),
             
             
-            myLabel.topAnchor.constraint(equalTo: userTextfield.topAnchor, constant: 16),
+            myLabel.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
             myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
+            
+            userNameLabel.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
+            userNameLabel.leadingAnchor.constraint(equalTo: userLabel.leadingAnchor, constant: 20),
             
         ]
         
@@ -210,6 +232,25 @@ class TasksViewController: UIViewController {
             }
         }
     }
+    
+    
+    func callGesture(){
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:  #selector(gestureFired(_:)))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        userLabel.addGestureRecognizer(gestureRecognizer)
+        userLabel.isUserInteractionEnabled = true
+    }
+    
+    @objc func gestureFired(_ gesture: UITapGestureRecognizer){
+        let vc = LogOutViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    
+    
+    
 }
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
@@ -301,13 +342,7 @@ extension TasksViewController : MyViewCellDelegate{
     func checkTapped(cell: MyViewCell) {
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
         let task = tasks[indexPath.section].tasks[indexPath.row]
-        
-        
-//        db.collection(K.Fstore.Users)
-//            .document(userID)
-//            .collection(K.Fstore.collectionName)
-//            .document("\(myId)")
-        
+
         //adding to completed list
         db.collection(K.Fstore.Users)
             .document(task.user)

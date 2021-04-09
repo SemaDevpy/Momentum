@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		294693512620548F00D16B13 /* LogOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294693502620548F00D16B13 /* LogOutViewController.swift */; };
 		29830A6A261DD05700AA1198 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29830A69261DD05700AA1198 /* TaskList.swift */; };
 		52AEC341483B56D6F25588FF /* Pods_Momentum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */; };
 		A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2337CD42612E32400E1B2F5 /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		00B69AB524E063A18BBAA4F8 /* Pods-Momentum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Momentum.debug.xcconfig"; path = "Target Support Files/Pods-Momentum/Pods-Momentum.debug.xcconfig"; sourceTree = "<group>"; };
+		294693502620548F00D16B13 /* LogOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutViewController.swift; sourceTree = "<group>"; };
 		29830A69261DD05700AA1198 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		5830A9F087053FBE543F7D09 /* Pods_Momentum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Momentum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2337CD12612E32400E1B2F5 /* Momentum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Momentum.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,7 @@
 				A24811AE26144833005FC96F /* TasksViewController.swift */,
 				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
 				A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */,
+				294693502620548F00D16B13 /* LogOutViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				A2337CD92612E32400E1B2F5 /* LoginViewController.swift in Sources */,
 				A2337CD52612E32400E1B2F5 /* AppDelegate.swift in Sources */,
 				A2EDCCC8261C61DE00E9A7A8 /* MainSectionHeader.swift in Sources */,
+				294693512620548F00D16B13 /* LogOutViewController.swift in Sources */,
 				A2337DCC26134C8300E1B2F5 /* VerifyViewController.swift in Sources */,
 				A23DB9B12615F5090051BA60 /* MyViewCell.swift in Sources */,
 				29830A6A261DD05700AA1198 /* TaskList.swift in Sources */,

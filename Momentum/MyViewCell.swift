@@ -57,16 +57,6 @@ class MyViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    //---contentView
-    //----------4
-    //------16 view 16
-    //----------4
-    
-    //---contentView
-    //----------0
-    //------16 view 16
-    //----------8
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
