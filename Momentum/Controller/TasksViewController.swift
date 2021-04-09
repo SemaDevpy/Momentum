@@ -19,7 +19,7 @@ class TasksViewController: UIViewController {
     let db = Firestore.firestore()
     var tasks: [TaskList] = []
     var mainSectionHeader = MainSectionHeader()
-    
+    var userName : String = ""
     //MARK: - UIElements
     
     let myImageView: UIImageView = {
@@ -62,7 +62,7 @@ class TasksViewController: UIViewController {
     
     let userNameLabel : UILabel = {
         let label = UILabel()
-        label.text = "John Peterson"
+        label.text = "Balancha"
         label.font = label.font.withSize(18)
         label.textColor =  .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,6 @@ class TasksViewController: UIViewController {
     //viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Hide the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
@@ -103,7 +102,6 @@ class TasksViewController: UIViewController {
         taskTableView.dataSource = self
         taskTableView.sectionHeaderHeight = 0.0;
         taskTableView.sectionFooterHeight = 0.0;
-        
         view.addSubview(userLabel)
         view.addSubview(taskTableView)
         view.addSubview(addButton)
@@ -112,6 +110,7 @@ class TasksViewController: UIViewController {
         userLabel.addSubview(userNameLabel)
         
         //reading from the Firestore
+        getProfile()
         loadTasks()
         
         //constraints
@@ -155,6 +154,18 @@ class TasksViewController: UIViewController {
     }
     
     //MARK: - Read of CRUD
+    
+    func getProfile() {
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        db.collection(K.Fstore.Users).document(userId).addSnapshotListener { (documentSnapshot, error) in
+            if let e = error {
+                print("There was an issue retrieving data from Firestore. \(e)")
+            } else {
+                print(documentSnapshot?.data())
+            }
+        }
+    }
+    
     //LOADING TASKS
     func loadTasks() {
         guard let userId = Auth.auth().currentUser?.uid else{ return }
@@ -244,6 +255,7 @@ class TasksViewController: UIViewController {
     
     @objc func gestureFired(_ gesture: UITapGestureRecognizer){
         let vc = LogOutViewController()
+        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -371,5 +383,13 @@ extension TasksViewController : MyViewCellDelegate{
         }
         taskTableView.reloadData()
         
+    }
+}
+
+
+extension TasksViewController : LogOutDelegate {
+    func sendName(name: String) {
+        print("LogOutDelegate is triggered")
+        userNameLabel.text = name
     }
 }

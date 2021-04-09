@@ -69,6 +69,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		2946935426206B0C00D16B13 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
+				A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */,
+				A23DB9B02615F5090051BA60 /* MyViewCell.swift */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
 		7E469680F8060851268F4032 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +113,6 @@
 				A2337CEB2612E46B00E1B2F5 /* View */,
 				A2337CE92612E45600E1B2F5 /* Controller */,
 				A2337CDD2612E32600E1B2F5 /* Assets.xcassets */,
-				A23DB9B02615F5090051BA60 /* MyViewCell.swift */,
 				A2337CDF2612E32600E1B2F5 /* LaunchScreen.storyboard */,
 				A2337CE22612E32600E1B2F5 /* Info.plist */,
 				A2337DCE2613669300E1B2F5 /* GoogleService-Info.plist */,
@@ -118,9 +127,8 @@
 				A2337CD82612E32400E1B2F5 /* LoginViewController.swift */,
 				A2337DCB26134C8300E1B2F5 /* VerifyViewController.swift */,
 				A24811AE26144833005FC96F /* TasksViewController.swift */,
-				A2B96CE32617565C00227F6E /* CreateTaskViewController.swift */,
-				A2EDCCC7261C61DE00E9A7A8 /* MainSectionHeader.swift */,
 				294693502620548F00D16B13 /* LogOutViewController.swift */,
+				2946935426206B0C00D16B13 /* Supporting */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

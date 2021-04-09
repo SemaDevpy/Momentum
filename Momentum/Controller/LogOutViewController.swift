@@ -8,9 +8,17 @@
 import UIKit
 import FirebaseAuth
 
-class LogOutViewController: UIViewController {
+
+protocol LogOutDelegate {
+    func sendName(name:String)
+}
+
+
+
+
+class LogOutViewController: UIViewController, UITextFieldDelegate {
     
-    
+    var delegate : LogOutDelegate?
     
     let myImageView: UIImageView = {
         let imageView = UIImageView()
@@ -66,7 +74,7 @@ class LogOutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "User Page"
-        
+        myTextField.delegate = self
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.barTintColor = .gray
@@ -119,6 +127,18 @@ class LogOutViewController: UIViewController {
     }
     
     
+  
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let name = textField.text else { return }
+        if let safe = delegate{
+            safe.sendName(name: name)
+        }else{
+            print("No delegate")
+        }
+        
+    }
     
     
     
