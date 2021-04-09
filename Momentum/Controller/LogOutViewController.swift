@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 
 protocol LogOutDelegate {
@@ -17,7 +18,7 @@ protocol LogOutDelegate {
 
 
 class LogOutViewController: UIViewController, UITextFieldDelegate {
-    
+    let db = Firestore.firestore()
     var delegate : LogOutDelegate?
     
     let myImageView: UIImageView = {
@@ -131,12 +132,22 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let name = textField.text else { return }
-        if let safe = delegate{
-            safe.sendName(name: name)
-        }else{
-            print("No delegate")
+        guard let name = textField.text, let userID = Auth.auth().currentUser?.uid else { return }
+        
+        db.collection(K.Fstore.Users)
+            .document(userID)
+            .setData([K.Fstore.name : name]) { (error) in
+                if let e = error {
+                    print("issue saving data \(e)")
+                } else {
+                    print("Yeeaahh I did it")
+            }
         }
+
+        
+        
+//        delegate?.sendName(name: name)
+       
         
     }
     

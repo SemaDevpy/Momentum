@@ -19,5 +19,6 @@ struct K {
         static let priorityField = "Priority"
         static let taskID = "taskID"
         static let status = "status"
+        static let name = "name"
     }
 }

@@ -161,7 +161,11 @@ class TasksViewController: UIViewController {
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
             } else {
-                print(documentSnapshot?.data())
+                if let safeData = documentSnapshot?.data(){
+                    DispatchQueue.main.async {
+                        self.userNameLabel.text = safeData[K.Fstore.name] as? String
+                    }
+                }
             }
         }
     }
