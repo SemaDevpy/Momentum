@@ -23,7 +23,7 @@ class MyViewCell: UITableViewCell {
     
     let myImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ellipse")
+        imageView.image = UIImage(named: "unchecked")
         imageView.contentMode = .scaleAspectFit
         
         imageView.translatesAutoresizingMaskIntoConstraints = false

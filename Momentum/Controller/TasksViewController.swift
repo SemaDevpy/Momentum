@@ -233,14 +233,20 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
         cell.myLabel.text = tasks[indexPath.section].tasks[indexPath.row].title
         cell.descriptionLabel.text = tasks[indexPath.section].tasks[indexPath.row].description
         
-        let priority = tasks[indexPath.section].tasks[indexPath.row].priority
-        switch priority{
-        case 1:
-            cell.myView.layer.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1).cgColor
-        case 2:
-            cell.myView.layer.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1).cgColor
-        default:
-            cell.myView.layer.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1).cgColor
+        switch tasks[indexPath.section].status {
+        case .active:
+            cell.myImageView.image = UIImage(named: "unchecked")
+            switch tasks[indexPath.section].tasks[indexPath.row].priority {
+            case 1:
+                cell.myView.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
+            case 2:
+                cell.myView.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
+            default:
+                cell.myView.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
+            }
+        case .completed:
+            cell.myView.backgroundColor = UIColor(red: 21/255, green: 28/255, blue: 37/255, alpha: 1)
+            cell.myImageView.image = UIImage(named: "checked")
         }
         
         if selectedIndexPaths.contains(indexPath) {
@@ -296,8 +302,18 @@ extension TasksViewController : MyViewCellDelegate{
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
         let task = tasks[indexPath.section].tasks[indexPath.row]
         
+        
+//        db.collection(K.Fstore.Users)
+//            .document(userID)
+//            .collection(K.Fstore.collectionName)
+//            .document("\(myId)")
+        
         //adding to completed list
-        db.collection(K.Fstore.completedTasks).document(task.taskID).setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID, K.Fstore.status : "completed"]) { (error) in
+        db.collection(K.Fstore.Users)
+            .document(task.user)
+            .collection(K.Fstore.completedTasks)
+            .document(task.taskID)
+            .setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID, K.Fstore.status : "completed"]) { (error) in
             if let e = error{
                 print("issue saving data \(e)")
             }else{
@@ -306,7 +322,11 @@ extension TasksViewController : MyViewCellDelegate{
         }
         
         //deleting from the firestore
-        db.collection(K.Fstore.collectionName).document(task.taskID).delete() { err in
+        db.collection(K.Fstore.Users)
+            .document(task.user)
+            .collection(K.Fstore.collectionName)
+            .document(task.taskID)
+            .delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
@@ -314,7 +334,7 @@ extension TasksViewController : MyViewCellDelegate{
                 print("Document successfully removed!")
             }
         }
-        //        loadTasks()
+        taskTableView.reloadData()
         
     }
 }
