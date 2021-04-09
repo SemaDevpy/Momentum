@@ -85,7 +85,7 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         myView.addSubview(myImageView)
         myView.addSubview(myLabel)
         myView.addSubview(myTextField)
-        
+        getProfile()
         
         let constraints = [
             myView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -128,7 +128,20 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-  
+    func getProfile() {
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        db.collection(K.Fstore.Users).document(userId).addSnapshotListener { (documentSnapshot, error) in
+            if let e = error {
+                print("There was an issue retrieving data from Firestore. \(e)")
+            } else {
+                if let safeData = documentSnapshot?.data(){
+                    DispatchQueue.main.async {
+                        self.myTextField.text = safeData[K.Fstore.name] as? String
+                    }
+                }
+            }
+        }
+    }
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -144,9 +157,6 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
             }
         }
 
-        
-        
-//        delegate?.sendName(name: name)
        
         
     }
