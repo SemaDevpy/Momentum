@@ -224,23 +224,25 @@ class CreateTaskViewController: UIViewController {
         
         
         if let taskTitle = titleTextField.text,
-           let user = Auth.auth().currentUser?.phoneNumber,
+           let userID = Auth.auth().currentUser?.uid,
            let description = descriptionTextField.text {
-            db.collection(K.Fstore.collectionName).document("\(myId)").setData([K.Fstore.titleField: taskTitle,
-                                                                                K.Fstore.userField: user,
-                                                                                K.Fstore.descriptionField: description,
-                                                                                K.Fstore.priorityField: taskPriority,
-                                                                                K.Fstore.taskID: myId,
-                                                                                K.Fstore.status : "active"]) { (error) in
-                if let e = error {
-                    print("issue saving data \(e)")
-                } else {
-                    self.dismiss(animated: true, completion: nil)
+            db.collection(K.Fstore.Users)
+                .document(userID)
+                .collection(K.Fstore.collectionName)
+                .document("\(myId)")
+                .setData([K.Fstore.titleField: taskTitle,
+                          K.Fstore.userField: userID,
+                          K.Fstore.descriptionField: description,
+                          K.Fstore.priorityField: taskPriority,
+                          K.Fstore.taskID: myId,
+                          K.Fstore.status : "active"]) { (error) in
+                    if let e = error {
+                        print("issue saving data \(e)")
+                    } else {
+                        self.dismiss(animated: true, completion: nil)
                 }
             }
         }
-        
-        
     }
     
     

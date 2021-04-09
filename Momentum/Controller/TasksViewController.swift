@@ -135,46 +135,50 @@ class TasksViewController: UIViewController {
     //MARK: - Read of CRUD
     //LOADING TASKS
     func loadTasks() {
-        guard let phoneNumber = Auth.auth().currentUser?.phoneNumber else{ return }
-//        db.collection(K.Fstore.Users).document(phoneNumber).collection(K.Fstore.collectionName)
-        db.collection(K.Fstore.collectionName).whereField(K.Fstore.userField, isEqualTo: phoneNumber).addSnapshotListener { (querySnapshot, error) in
-            if let e = error {
-                print("There was an issue retrieving data from Firestore. \(e)")
-            }else{
-                if let snapshotDocuments =  querySnapshot?.documents {
-                    self.tasks.removeAll()
-                    var tempTasks: [Task] = []
-                    
-                    for doc in snapshotDocuments {
-                        let data = doc.data()
-                        if let title = data[K.Fstore.titleField] as? String,
-                           let description = data[K.Fstore.descriptionField] as? String,
-                           let priority = data[K.Fstore.priorityField] as? Int,
-                           let id = data[K.Fstore.taskID] as? String,
-                           let user = data[K.Fstore.userField] as? String,
-                           let status = data[K.Fstore.status] as? String {
-                            
-                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
-                            tempTasks.append(newTask)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        db.collection(K.Fstore.Users)
+            .document(userId)
+            .collection(K.Fstore.collectionName)
+            .whereField(K.Fstore.userField, isEqualTo: userId).addSnapshotListener { (querySnapshot, error) in
+                if let e = error {
+                    print("There was an issue retrieving data from Firestore. \(e)")
+                } else {
+                    if let snapshotDocuments =  querySnapshot?.documents {
+                        self.tasks.removeAll()
+                        var tempTasks: [Task] = []
+                        
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            if let title = data[K.Fstore.titleField] as? String,
+                               let description = data[K.Fstore.descriptionField] as? String,
+                               let priority = data[K.Fstore.priorityField] as? Int,
+                               let id = data[K.Fstore.taskID] as? String,
+                               let user = data[K.Fstore.userField] as? String,
+                               let status = data[K.Fstore.status] as? String {
+                                
+                                let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
+                                tempTasks.append(newTask)
+                            }
                         }
+                        
+                        let sortedTasks = tempTasks.sorted(by: { $0.priority > $1.priority })
+                        
+                        let taskList = TaskList(status: .active, tasks: sortedTasks)
+                        self.tasks.append(taskList)
+                        self.loadCompletedTasks()
                     }
-                    
-                    let sortedTasks = tempTasks.sorted(by: { $0.priority > $1.priority })
-                    
-                    let taskList = TaskList(status: .active, tasks: sortedTasks)
-                    self.tasks.append(taskList)
-                    self.loadCompletedTasks()
                 }
             }
-        }
-        ///
     }
     
     
-//LOADING COMPLETED TASKS
+    //LOADING COMPLETED TASKS
     func loadCompletedTasks() {
-        guard let user = Auth.auth().currentUser?.phoneNumber else { return }
-        db.collection(K.Fstore.completedTasks).whereField(K.Fstore.userField, isEqualTo: user).addSnapshotListener { (querySnapshot, error) in
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        db.collection(K.Fstore.Users)
+            .document(userId)
+            .collection(K.Fstore.completedTasks)
+            .whereField(K.Fstore.userField, isEqualTo: userId).addSnapshotListener { (querySnapshot, error) in
             if let e = error {
                 print("There was an issue retrieving data from Firestore. \(e)")
             } else {
@@ -293,7 +297,7 @@ extension TasksViewController : MyViewCellDelegate{
         let task = tasks[indexPath.section].tasks[indexPath.row]
         
         //adding to completed list
-        db.collection(K.Fstore.completedTasks).document(task.taskID).setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID]) { (error) in
+        db.collection(K.Fstore.completedTasks).document(task.taskID).setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID, K.Fstore.status : "completed"]) { (error) in
             if let e = error{
                 print("issue saving data \(e)")
             }else{
@@ -310,7 +314,7 @@ extension TasksViewController : MyViewCellDelegate{
                 print("Document successfully removed!")
             }
         }
-        loadTasks()
-        loadCompletedTasks()
+        //        loadTasks()
+        
     }
 }
