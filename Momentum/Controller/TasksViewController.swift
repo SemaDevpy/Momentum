@@ -183,7 +183,6 @@ class TasksViewController: UIViewController {
                     if let snapshotDocuments =  querySnapshot?.documents {
                         self.tasks.removeAll()
                         var tempTasks: [Task] = []
-                        
                         for doc in snapshotDocuments {
                             let data = doc.data()
                             if let title = data[K.Fstore.titleField] as? String,
@@ -222,7 +221,6 @@ class TasksViewController: UIViewController {
                 if let snapshotDocuments =  querySnapshot?.documents {
                     
                     var tempTasks: [Task] = []
-                    
                     for doc in snapshotDocuments {
                         let data = doc.data()
                         if let title = data[K.Fstore.titleField] as? String,
@@ -264,9 +262,6 @@ class TasksViewController: UIViewController {
     }
     
     
-    
-    
-    
 }
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
@@ -286,10 +281,7 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
         cell.delegate = self
         cell.backgroundColor = UIColor(named: "myCustomColor")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        
-        cell.myLabel.text = tasks[indexPath.section].tasks[indexPath.row].title
         cell.descriptionLabel.text = tasks[indexPath.section].tasks[indexPath.row].description
-        
         switch tasks[indexPath.section].status {
         case .active:
             cell.myImageView.image = UIImage(named: "unchecked")
@@ -301,11 +293,30 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
             default:
                 cell.myView.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
             }
+            
         case .completed:
             cell.myView.backgroundColor = UIColor(red: 21/255, green: 28/255, blue: 37/255, alpha: 1)
             cell.myImageView.image = UIImage(named: "checked")
+            
         }
         
+        
+        
+        
+        if tasks[indexPath.section].tasks[indexPath.row].status == "active"{
+            let attrString = NSAttributedString(string: tasks[indexPath.section].tasks[indexPath.row].title, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.patternDot.rawValue])
+            cell.myLabel.attributedText = attrString
+            cell.myLabel.textColor = .white
+            cell.descriptionLabel.textColor = UIColor(red: 204/255, green: 222/255, blue: 222/255, alpha: 1)
+        }else{
+            let attrString = NSAttributedString(string: tasks[indexPath.section].tasks[indexPath.row].title, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            cell.myLabel.attributedText = attrString
+            cell.myLabel.textColor = UIColor(red: 68/255, green: 73/255, blue: 81/255, alpha: 1)
+            cell.descriptionLabel.textColor = UIColor(red: 68/255, green: 73/255, blue: 81/255, alpha: 1)
+        }
+        
+        
+
         if selectedIndexPaths.contains(indexPath) {
             cell.setupWith(isCollapsed: true)
         } else {

@@ -11,11 +11,12 @@ import Foundation
 struct K {
     struct Fstore {
         static let Users = "Users"
-        static let collectionName = "Tasks"
+        static let collectionName = "tasks"
         static let completedTasks = "completedTasks"
-        static let titleField = "Title"
-        static let userField = "User"
-        static let descriptionField = "Description"
+        static let titleField = "title"
+        static let userField = "user"
+        static let descriptionField = "description"
+        static let scoreField = "score"
         static let priorityField = "Priority"
         static let taskID = "taskID"
         static let status = "status"
