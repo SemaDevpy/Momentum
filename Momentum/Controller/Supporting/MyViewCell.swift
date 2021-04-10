@@ -30,6 +30,27 @@ class MyViewCell: UITableViewCell {
         return imageView
     }()
     
+    let myImageViewRight: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "star")
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    let myLabelRight: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "+13"
+        return label
+    }()
+    
+    
     let myView : UIView = {
         let view = UIView()
         view.layer.backgroundColor = UIColor(red: 0.859, green: 0.388, blue: 0.345, alpha: 1).cgColor
@@ -64,7 +85,8 @@ class MyViewCell: UITableViewCell {
         myView.addSubview(myImageView)
         myView.addSubview(myLabel)
         myView.addSubview(descriptionLabel)
-        
+        myView.addSubview(myImageViewRight)
+        myView.addSubview(myLabelRight)
         //myGesture
         let gestureRecognizer = UITapGestureRecognizer(target: self, action:  #selector(gestureFired(_:)))
         gestureRecognizer.numberOfTapsRequired = 1
@@ -83,7 +105,7 @@ class MyViewCell: UITableViewCell {
             myLabel.leadingAnchor.constraint(equalTo: myImageView.trailingAnchor, constant: 14),
             myLabel.heightAnchor.constraint(equalToConstant: 24),
             myLabel.topAnchor.constraint(equalTo: myView.topAnchor, constant: 14),
-            myLabel.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -14),
+//            myLabel.trailingAnchor.constraint(equalTo: myLabelRight.leadingAnchor, constant: 8),
             
             myImageView.widthAnchor.constraint(equalToConstant: 24),
             myImageView.heightAnchor.constraint(equalToConstant: 24),
@@ -93,6 +115,20 @@ class MyViewCell: UITableViewCell {
             descriptionLabel.topAnchor.constraint(equalTo: myLabel.bottomAnchor, constant: 14),
             descriptionLabel.leadingAnchor.constraint(equalTo: myImageView.trailingAnchor, constant: 14),
             descriptionLabel.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -14),
+            
+            
+            
+            myImageViewRight.widthAnchor.constraint(equalToConstant: 20),
+            myImageViewRight.heightAnchor.constraint(equalToConstant: 20),
+            myImageViewRight.topAnchor.constraint(equalTo: myView.topAnchor, constant: 14),
+            myImageViewRight.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -16),
+            
+            
+            myLabelRight.topAnchor.constraint(equalTo: myView.topAnchor, constant: 14),
+            myLabelRight.trailingAnchor.constraint(equalTo: myImageViewRight.leadingAnchor, constant: -8),
+//            myLabelRight.leadingAnchor.constraint(equalTo: myLabel.trailingAnchor, constant: 8)
+            
+            
         ]
         
         descHeight = descriptionLabel.heightAnchor.constraint(equalToConstant: 0)

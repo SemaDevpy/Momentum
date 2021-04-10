@@ -20,6 +20,7 @@ class TasksViewController: UIViewController {
     var tasks: [TaskList] = []
     var mainSectionHeader = MainSectionHeader()
     var userName : String = ""
+    var score = 0
     //MARK: - UIElements
     
     let myImageView: UIImageView = {
@@ -32,7 +33,7 @@ class TasksViewController: UIViewController {
     
     let myLabel : UILabel = {
         let label = UILabel()
-        label.text = "215"
+        label.text = "0"
         label.font = label.font.withSize(18)
         label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
         
@@ -164,6 +165,9 @@ class TasksViewController: UIViewController {
                 if let safeData = documentSnapshot?.data(){
                     DispatchQueue.main.async {
                         self.userNameLabel.text = safeData[K.Fstore.name] as? String
+                        guard let safeScore = safeData[K.Fstore.scoreField] as? Int else { return }
+                        self.score = safeScore
+                        self.myLabel.text = "\(self.score)"
                     }
                 }
             }
@@ -293,11 +297,24 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
             default:
                 cell.myView.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
             }
+            cell.myImageViewRight.isHidden = true
+            cell.myLabelRight.isHidden = true
             
         case .completed:
             cell.myView.backgroundColor = UIColor(red: 21/255, green: 28/255, blue: 37/255, alpha: 1)
             cell.myImageView.image = UIImage(named: "checked")
+            cell.myImageViewRight.isHidden = false
+            cell.myLabelRight.isHidden = false
             
+            
+            switch  tasks[indexPath.section].tasks[indexPath.row].priority{
+            case 1:
+                cell.myLabelRight.text = "+8"
+            case 2:
+                cell.myLabelRight.text = "+13"
+            default:
+                cell.myLabelRight.text = "+18"
+            }
         }
         
         
@@ -369,6 +386,27 @@ extension TasksViewController : MyViewCellDelegate{
     func checkTapped(cell: MyViewCell) {
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
         let task = tasks[indexPath.section].tasks[indexPath.row]
+        let priority = tasks[indexPath.section].tasks[indexPath.row].priority
+        //adding score
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        switch priority {
+        case 1:
+            score += 8
+        case 2:
+            score += 13
+        default:
+            score += 18
+        }
+
+        db.collection(K.Fstore.Users)
+            .document(userID)
+            .setData([K.Fstore.scoreField : score],  merge: true) { (error) in
+                if let e = error {
+                    print("issue saving data \(e)")
+                } else {
+                    print("Yeeaahh I did it")
+            }
+        }
 
         //adding to completed list
         db.collection(K.Fstore.Users)
