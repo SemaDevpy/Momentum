@@ -8,6 +8,7 @@
 import Foundation
 
 struct TaskList {
+    var isExpanded : Bool
     let status: TaskStatus
-    let tasks: [Task]
+    var tasks: [Task]
 }
