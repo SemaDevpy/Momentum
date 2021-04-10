@@ -20,6 +20,8 @@ protocol LogOutDelegate {
 class LogOutViewController: UIViewController, UITextFieldDelegate {
     let db = Firestore.firestore()
     var delegate : LogOutDelegate?
+    var userName = ""
+    var score = 0
     
     let myImageView: UIImageView = {
         let imageView = UIImageView()
@@ -31,7 +33,7 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
     
     let myLabel : UILabel = {
         let label = UILabel()
-        label.text = "215"
+        label.text = ""
         label.font = label.font.withSize(18)
         label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
         
@@ -86,6 +88,8 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         myView.addSubview(myLabel)
         myView.addSubview(myTextField)
         getProfile()
+        myTextField.text = userName
+        myLabel.text = "\(score)"
         
         let constraints = [
             myView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

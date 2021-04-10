@@ -63,7 +63,7 @@ class TasksViewController: UIViewController {
     
     let userNameLabel : UILabel = {
         let label = UILabel()
-        label.text = "Balancha"
+        label.text = "Add your name"
         label.font = label.font.withSize(18)
         label.textColor =  .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +164,7 @@ class TasksViewController: UIViewController {
             } else {
                 if let safeData = documentSnapshot?.data(){
                     DispatchQueue.main.async {
-                        self.userNameLabel.text = safeData[K.Fstore.name] as? String
+                        self.userNameLabel.text = safeData[K.Fstore.name] as? String ?? "Add your name"
                         guard let safeScore = safeData[K.Fstore.scoreField] as? Int else { return }
                         self.score = safeScore
                         self.myLabel.text = "\(self.score)"
@@ -241,7 +241,6 @@ class TasksViewController: UIViewController {
                     
                     let taskList = TaskList(status: .completed, tasks: tempTasks)
                     self.tasks.append(taskList)
-                    
                     DispatchQueue.main.async {
                         self.taskTableView.reloadData()
                     }
@@ -262,6 +261,8 @@ class TasksViewController: UIViewController {
     @objc func gestureFired(_ gesture: UITapGestureRecognizer){
         let vc = LogOutViewController()
         vc.delegate = self
+        vc.userName = userName
+        vc.score = score
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
