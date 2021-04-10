@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class CreateTaskViewController: UIViewController {
+class CreateTaskViewController: UIViewController, UITextFieldDelegate {
     let db = Firestore.firestore()
     var taskPriority = 1
     //MARK: - UIelements
@@ -25,7 +25,7 @@ class CreateTaskViewController: UIViewController {
         button.addTarget(self, action: #selector(createBtnTapped), for: .touchUpInside)
         return button
     }()
-
+    
     let myLabel : UILabel = {
         let label = UILabel()
         label.text = "Add a title"
@@ -82,6 +82,8 @@ class CreateTaskViewController: UIViewController {
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextField.delegate = self
+        descriptionTextField.delegate = self
         view.layer.backgroundColor = UIColor(red: 0.107, green: 0.149, blue: 0.213, alpha: 1).cgColor
         view.addSubview(myLabel)
         view.addSubview(titleTextField)
@@ -174,7 +176,7 @@ class CreateTaskViewController: UIViewController {
         stackView.addArrangedSubview(button2)
         stackView.addArrangedSubview(button3)
     }
-
+    
     func setStackViewConstraints(){
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: myLabel3.bottomAnchor, constant: 8).isActive = true
@@ -189,29 +191,34 @@ class CreateTaskViewController: UIViewController {
     }
     //creating task
     @objc func createBtnTapped(){
-        
-        
-        
         let myId = db.collection(K.Fstore.collectionName).document().documentID
         if let taskTitle = titleTextField.text,
            let userID = Auth.auth().currentUser?.uid,
            let description = descriptionTextField.text {
-            db.collection(K.Fstore.Users)
-                .document(userID)
-                .collection(K.Fstore.collectionName)
-                .document("\(myId)")
-                .setData([K.Fstore.titleField: taskTitle,
-                          K.Fstore.userField: userID,
-                          K.Fstore.descriptionField: description,
-                          K.Fstore.priorityField: taskPriority,
-                          K.Fstore.taskID: myId,
-                          K.Fstore.status : "active"]) { (error) in
-                    if let e = error {
-                        print("issue saving data \(e)")
-                    } else {
-                        self.dismiss(animated: true, completion: nil)
-                }
+            if taskTitle != "" && description != ""{
+                db.collection(K.Fstore.Users)
+                    .document(userID)
+                    .collection(K.Fstore.collectionName)
+                    .document("\(myId)")
+                    .setData([K.Fstore.titleField: taskTitle,
+                              K.Fstore.userField: userID,
+                              K.Fstore.descriptionField: description,
+                              K.Fstore.priorityField: taskPriority,
+                              K.Fstore.taskID: myId,
+                              K.Fstore.status : "active"]) { (error) in
+                        if let e = error {
+                            print("issue saving data \(e)")
+                        } else {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
+            }else{
+                titleTextField.attributedPlaceholder = NSAttributedString(string: "Please Fill In",
+                                                                          attributes: [NSAttributedString.Key.foregroundColor:  UIColor(red: 0.45, green: 0.506, blue: 0.571, alpha: 1)])
+                descriptionTextField.attributedPlaceholder = NSAttributedString(string: "Please Fill In",
+                                                                                attributes: [NSAttributedString.Key.foregroundColor:  UIColor(red: 0.45, green: 0.506, blue: 0.571, alpha: 1)])
             }
         }
     }
 }
+

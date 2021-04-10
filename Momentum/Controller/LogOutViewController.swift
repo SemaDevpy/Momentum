@@ -138,7 +138,7 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         guard let name = textField.text, let userID = Auth.auth().currentUser?.uid else { return }
         db.collection(K.Fstore.Users)
             .document(userID)
-            .setData([K.Fstore.name : name]) { (error) in
+            .setData([K.Fstore.name : name] , merge: true) { (error) in
                 if let e = error {
                     print("issue saving data \(e)")
                 }
