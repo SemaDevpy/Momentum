@@ -10,9 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class CreateTaskViewController: UIViewController {
-    
     let db = Firestore.firestore()
-    var taskPriority = 0
+    var taskPriority = 1
     //MARK: - UIelements
     var stackView = UIStackView()
     
@@ -26,14 +25,12 @@ class CreateTaskViewController: UIViewController {
         button.addTarget(self, action: #selector(createBtnTapped), for: .touchUpInside)
         return button
     }()
-    
-    
+
     let myLabel : UILabel = {
         let label = UILabel()
         label.text = "Add a title"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,7 +44,6 @@ class CreateTaskViewController: UIViewController {
         textField.leftViewMode = .always
         textField.layer.backgroundColor = UIColor(red: 0.125, green: 0.188, blue: 0.259, alpha: 1).cgColor
         textField.layer.cornerRadius = 5
-        
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -57,7 +53,6 @@ class CreateTaskViewController: UIViewController {
         label.text = "Add a description"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -75,25 +70,15 @@ class CreateTaskViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
-    
-    
     //third
     let myLabel3 : UILabel = {
         let label = UILabel()
         label.text = "Priority:"
         label.font = label.font.withSize(12)
         label.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.78, alpha: 1)
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
-    
-    
-    
-    
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,7 +90,6 @@ class CreateTaskViewController: UIViewController {
         view.addSubview(myLabel3)
         view.addSubview(createButton)
         configureStackView()
-        
         //constraints
         let constraints = [
             myLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 46),
@@ -134,22 +118,16 @@ class CreateTaskViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(constraints)
-        
-        
     }
     //MARK: - Configuring the stackView
     func configureStackView(){
         view.addSubview(stackView)
-        
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 8
-        
         addButtonsToStackView()
         setStackViewConstraints()
-        
     }
-    
     
     func addButtonsToStackView(){
         //buttons
@@ -159,6 +137,7 @@ class CreateTaskViewController: UIViewController {
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
             button.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
             button.layer.cornerRadius = 3
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
             button.translatesAutoresizingMaskIntoConstraints = false
             button.tag = 1
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
@@ -171,6 +150,7 @@ class CreateTaskViewController: UIViewController {
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
             button.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
             button.layer.cornerRadius = 3
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
             button.tag = 2
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
             return button
@@ -180,49 +160,39 @@ class CreateTaskViewController: UIViewController {
         let button3 : UIButton = {
             let button = UIButton()
             button.setTitle("Highest", for: .normal)
+            button.heightAnchor.constraint(equalToConstant: 37).isActive = true
             button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
             button.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
             button.layer.cornerRadius = 3
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
             button.tag = 3
             button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
             return button
         }()
         
-        
         stackView.addArrangedSubview(button1)
         stackView.addArrangedSubview(button2)
         stackView.addArrangedSubview(button3)
-        
-        
-        
-        
     }
-    
-    
-    
+
     func setStackViewConstraints(){
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: myLabel3.bottomAnchor, constant: 8).isActive = true
         stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
-    
-    
-    
+    //MARK: - Create a task event
     //Create event from three priority buttons
     @objc func prioritytapped(sender : UIButton){
         sender.showsTouchWhenHighlighted = true
         taskPriority = sender.tag
     }
-    
-    
-    
-    //MARK: - Create a task event
     //creating task
     @objc func createBtnTapped(){
+        
+        
+        
         let myId = db.collection(K.Fstore.collectionName).document().documentID
-        
-        
         if let taskTitle = titleTextField.text,
            let userID = Auth.auth().currentUser?.uid,
            let description = descriptionTextField.text {
@@ -244,6 +214,4 @@ class CreateTaskViewController: UIViewController {
             }
         }
     }
-    
-    
 }

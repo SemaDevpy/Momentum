@@ -15,14 +15,13 @@ enum TaskStatus: String {
 }
 
 class TasksViewController: UIViewController {
-    
     let db = Firestore.firestore()
     var tasks: [TaskList] = []
     var mainSectionHeader = MainSectionHeader()
     var userName : String = ""
     var score = 0
-    //MARK: - UIElements
-    
+    var selectedIndexPaths: [IndexPath] = []
+//MARK: - UIElements
     let myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "star")
@@ -36,7 +35,6 @@ class TasksViewController: UIViewController {
         label.text = "0"
         label.font = label.font.withSize(18)
         label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,8 +57,7 @@ class TasksViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
+
     let userNameLabel : UILabel = {
         let label = UILabel()
         label.text = "Add your name"
@@ -70,7 +67,6 @@ class TasksViewController: UIViewController {
         return label
     }()
     
-    //tableView
     let taskTableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = UIColor(named: "myCustomColor")
@@ -79,22 +75,12 @@ class TasksViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-    var selectedIndexPaths: [IndexPath] = []
-    
-    
-    
-    
-    
-    
-    //viewWillAppear
+//MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-    
-    
-    //MARK: - viewDidload
+//MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.backgroundColor = UIColor(red: 0.127, green: 0.181, blue: 0.262, alpha: 1).cgColor
@@ -114,7 +100,6 @@ class TasksViewController: UIViewController {
         getProfile()
         loadTasks()
         
-        //constraints
         let constraints = [
             userLabel.heightAnchor.constraint(equalToConstant: 53),
             userLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -136,26 +121,22 @@ class TasksViewController: UIViewController {
             myImageView.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
             myImageView.trailingAnchor.constraint(equalTo: userLabel.trailingAnchor, constant: -16),
             
-            
             myLabel.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
             myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
             
             userNameLabel.topAnchor.constraint(equalTo: userLabel.topAnchor, constant: 16),
             userNameLabel.leadingAnchor.constraint(equalTo: userLabel.leadingAnchor, constant: 20),
-            
         ]
-        
         NSLayoutConstraint.activate(constraints)
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    //MARK: - add a task
+//MARK: -  Create of CRUD
     @objc func addTapped(){
         self.navigationController?.present(CreateTaskViewController(), animated: true, completion: nil)
     }
     
-    //MARK: - Read of CRUD
-    
+//MARK: - Read of CRUD
     func getProfile() {
         guard let userId = Auth.auth().currentUser?.uid else{ return }
         db.collection(K.Fstore.Users).document(userId).addSnapshotListener { (documentSnapshot, error) in
@@ -173,7 +154,6 @@ class TasksViewController: UIViewController {
             }
         }
     }
-    
     //LOADING TASKS
     func loadTasks() {
         guard let userId = Auth.auth().currentUser?.uid else{ return }
@@ -195,14 +175,12 @@ class TasksViewController: UIViewController {
                                let id = data[K.Fstore.taskID] as? String,
                                let user = data[K.Fstore.userField] as? String,
                                let status = data[K.Fstore.status] as? String {
-                                
-                                let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
-                                tempTasks.append(newTask)
+                            
+                               let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
+                               tempTasks.append(newTask)
                             }
                         }
-                        
                         let sortedTasks = tempTasks.sorted(by: { $0.priority > $1.priority })
-                        
                         let taskList = TaskList(status: .active, tasks: sortedTasks)
                         self.tasks.append(taskList)
                         self.loadCompletedTasks()
@@ -210,8 +188,6 @@ class TasksViewController: UIViewController {
                 }
             }
     }
-    
-    
     //LOADING COMPLETED TASKS
     func loadCompletedTasks() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -234,8 +210,8 @@ class TasksViewController: UIViewController {
                            let user = data[K.Fstore.userField] as? String,
                            let status = data[K.Fstore.status] as? String {
                             
-                            let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
-                            tempTasks.append(newTask)
+                           let newTask = Task(user: user, title: title, description: description, priority: priority, taskID: id, status: status)
+                           tempTasks.append(newTask)
                         }
                     }
                     
@@ -248,8 +224,7 @@ class TasksViewController: UIViewController {
             }
         }
     }
-    
-    
+//MARK: - Gesture to add a name and Log User Out
     func callGesture(){
         let gestureRecognizer = UITapGestureRecognizer(target: self, action:  #selector(gestureFired(_:)))
         gestureRecognizer.numberOfTapsRequired = 1
@@ -265,12 +240,9 @@ class TasksViewController: UIViewController {
         vc.score = score
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
 }
 
 //MARK: - UITablewViewDelegate, UITablewViewDataSource
-
 extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
     //TableView main methods
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -317,10 +289,7 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
                 cell.myLabelRight.text = "+18"
             }
         }
-        
-        
-        
-        
+
         if tasks[indexPath.section].tasks[indexPath.row].status == "active"{
             let attrString = NSAttributedString(string: tasks[indexPath.section].tasks[indexPath.row].title, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.patternDot.rawValue])
             cell.myLabel.attributedText = attrString
@@ -383,6 +352,7 @@ extension TasksViewController : MainSectionHeaderDelegate{
         print("Im Tapped in from Main View Controller!")
     }
 }
+//MARK: - MyViewCellDelegate
 extension TasksViewController : MyViewCellDelegate{
     func checkTapped(cell: MyViewCell) {
         guard let indexPath = taskTableView.indexPath(for: cell) else { return }
@@ -404,11 +374,8 @@ extension TasksViewController : MyViewCellDelegate{
             .setData([K.Fstore.scoreField : score],  merge: true) { (error) in
                 if let e = error {
                     print("issue saving data \(e)")
-                } else {
-                    print("Yeeaahh I did it")
-            }
+                }
         }
-
         //adding to completed list
         db.collection(K.Fstore.Users)
             .document(task.user)
@@ -417,11 +384,8 @@ extension TasksViewController : MyViewCellDelegate{
             .setData([K.Fstore.titleField : task.title, K.Fstore.userField : task.user, K.Fstore.descriptionField : task.description, K.Fstore.priorityField : task.priority, K.Fstore.taskID : task.taskID, K.Fstore.status : "completed"]) { (error) in
             if let e = error{
                 print("issue saving data \(e)")
-            }else{
-                print("Document successfully transferred!")
             }
         }
-        
         //deleting from the firestore
         db.collection(K.Fstore.Users)
             .document(task.user)
@@ -430,20 +394,14 @@ extension TasksViewController : MyViewCellDelegate{
             .delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
-            } else {
-                
-                print("Document successfully removed!")
             }
         }
         taskTableView.reloadData()
-        
     }
 }
-
-
+//MARK: - LogOutDelegate
 extension TasksViewController : LogOutDelegate {
     func sendName(name: String) {
-        print("LogOutDelegate is triggered")
         userNameLabel.text = name
     }
 }

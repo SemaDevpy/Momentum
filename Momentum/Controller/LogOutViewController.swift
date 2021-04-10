@@ -9,20 +9,16 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-
 protocol LogOutDelegate {
     func sendName(name:String)
 }
-
-
-
 
 class LogOutViewController: UIViewController, UITextFieldDelegate {
     let db = Firestore.firestore()
     var delegate : LogOutDelegate?
     var userName = ""
     var score = 0
-    
+    //MARK: - UI Elements
     let myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "star")
@@ -41,7 +37,6 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    
     let myTextField : UITextField = {
         let textField = UITextField()
         textField.text = "John Peterson"
@@ -51,8 +46,6 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
-    
     
     let myView : UIView = {
         let view = UIView()
@@ -70,10 +63,7 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         btn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return btn
     }()
-    
-    
-    
-    
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "User Page"
@@ -107,7 +97,6 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
             myImageView.topAnchor.constraint(equalTo: myView.topAnchor, constant: 16),
             myImageView.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -16),
             
-            
             myLabel.topAnchor.constraint(equalTo: myView.topAnchor, constant: 16),
             myLabel.trailingAnchor.constraint(equalTo: myImageView.leadingAnchor, constant: -8),
             
@@ -119,8 +108,7 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         
         NSLayoutConstraint.activate(constraints)
     }
-    
-    
+    //MARK: - Actions
     @objc func buttonTapped(){
         let firebaseAuth = Auth.auth()
         do {
@@ -130,7 +118,6 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
             print ("Error signing out: %@", signOutError)
         }
     }
-    
     
     func getProfile() {
         guard let userId = Auth.auth().currentUser?.uid else{ return }
@@ -147,24 +134,14 @@ class LogOutViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let name = textField.text, let userID = Auth.auth().currentUser?.uid else { return }
-        
         db.collection(K.Fstore.Users)
             .document(userID)
             .setData([K.Fstore.name : name]) { (error) in
                 if let e = error {
                     print("issue saving data \(e)")
-                } else {
-                    print("Yeeaahh I did it")
+                }
             }
-        }
-
-       
-        
     }
-    
-    
-    
 }

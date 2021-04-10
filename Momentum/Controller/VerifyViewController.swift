@@ -9,18 +9,11 @@ import UIKit
 import FirebaseAuth
 
 class VerifyViewController: UIViewController {
-    
-    
-    
     var timer : Timer!
     var count = 20
     var timerCounting = true
-    
     var phoneNumber: String = ""
-    
     //MARK: - UIElements
-    
-    
     let resendLabel : UILabel = {
         let label = UILabel()
         //        label.text = "Resend code in 29sec"
@@ -40,8 +33,7 @@ class VerifyViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
+
     let sendCodelabel : UILabel = {
         let label = UILabel()
         label.font = label.font.withSize(14)
@@ -49,11 +41,8 @@ class VerifyViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        
         return label
     }()
-    
     
     let loginLabel : UILabel = {
         let label = UILabel()
@@ -64,8 +53,7 @@ class VerifyViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
+
     let textFieldNum : UITextField = {
         let textField = UITextField()
         textField.layer.backgroundColor = UIColor(red: 0.172, green: 0.252, blue: 0.342, alpha: 1).cgColor
@@ -80,13 +68,9 @@ class VerifyViewController: UIViewController {
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.keyboardType = UIKeyboardType.phonePad
         textField.text = "123456"
-        
         textField.attributedPlaceholder = NSAttributedString(string: "Code",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        
-        
-        
-        
+    
         return textField
     }()
     
@@ -100,8 +84,7 @@ class VerifyViewController: UIViewController {
         button.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
         return button
     }()
-    
-    
+ 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,13 +131,8 @@ class VerifyViewController: UIViewController {
             resendLabel.trailingAnchor.constraint(equalTo: textFieldNum.trailingAnchor),
             resendLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8),
         ]
-        
-        
+
         NSLayoutConstraint.activate(constraints)
-        
-        
-        
-        
     }
     
     
@@ -176,14 +154,6 @@ class VerifyViewController: UIViewController {
             
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
     //MARK: - Events
     @objc func loginBtnTapped(){
         guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")else{return}
@@ -204,9 +174,7 @@ class VerifyViewController: UIViewController {
             }
         }
     }
-    
-    
-    
+
 }
 //MARK: - AuthUIDelegate
 extension VerifyViewController: AuthUIDelegate {
@@ -219,6 +187,4 @@ extension VerifyViewController: AuthUIDelegate {
         super.dismiss(animated: flag, completion: completion)
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
     }
-    
-    
 }

@@ -23,7 +23,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         return label
     }()
     
-    
     let loginLabel : UILabel = {
        let label = UILabel()
         label.text = "Login"
@@ -33,7 +32,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         label.translatesAutoresizingMaskIntoConstraints = false
        return label
     }()
-    
     
     let textFieldNum : UITextField = {
        let textField = UITextField()
@@ -53,7 +51,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         textField.text = "+996706929120"
         return textField
     }()
-    
     
     let myButton : UIButton = {
         let button = UIButton()
@@ -77,20 +74,17 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         view.addSubview(textFieldNum)
         view.addSubview(myButton)
         view.addSubview(invalidInputLabel)
-        
-
+ 
         //constraints
         let constraints = [
             loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-
             textFieldNum.heightAnchor.constraint(equalToConstant: 50),
             textFieldNum.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             textFieldNum.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
             textFieldNum.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 109),
             
-
             myButton.heightAnchor.constraint(equalToConstant: 50),
             myButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             myButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
@@ -98,7 +92,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
             
             invalidInputLabel.leadingAnchor.constraint(equalTo: textFieldNum.leadingAnchor),
             invalidInputLabel.topAnchor.constraint(equalTo: textFieldNum.bottomAnchor, constant: 8)
-            
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -124,7 +117,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         }
     }
 }
-
 
 extension LoginViewController: AuthUIDelegate {
     

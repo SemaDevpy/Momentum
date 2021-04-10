@@ -12,9 +12,7 @@ protocol MyViewCellDelegate {
 }
 
 class MyViewCell: UITableViewCell {
-    
     let mainVC = TasksViewController()
-    
     static let identifier = "MyViewCell"
     var delegate : MyViewCellDelegate?
     var isCollapsed: Bool = false
@@ -45,11 +43,11 @@ class MyViewCell: UITableViewCell {
         label.textColor = .white
         label.numberOfLines = 0
         label.isHidden = true
+        label.textColor =  UIColor(red: 0.902, green: 0.682, blue: 0.145, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "+13"
         return label
     }()
-    
     
     let myView : UIView = {
         let view = UIView()
@@ -93,8 +91,7 @@ class MyViewCell: UITableViewCell {
         gestureRecognizer.numberOfTouchesRequired = 1
         myImageView.addGestureRecognizer(gestureRecognizer)
         myImageView.isUserInteractionEnabled = true
-        
-        
+     
         //constraints
         let constraints = [
             myView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
@@ -115,20 +112,15 @@ class MyViewCell: UITableViewCell {
             descriptionLabel.topAnchor.constraint(equalTo: myLabel.bottomAnchor, constant: 14),
             descriptionLabel.leadingAnchor.constraint(equalTo: myImageView.trailingAnchor, constant: 14),
             descriptionLabel.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -14),
-            
-            
-            
+        
             myImageViewRight.widthAnchor.constraint(equalToConstant: 20),
             myImageViewRight.heightAnchor.constraint(equalToConstant: 20),
             myImageViewRight.topAnchor.constraint(equalTo: myView.topAnchor, constant: 14),
             myImageViewRight.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -16),
             
-            
             myLabelRight.topAnchor.constraint(equalTo: myView.topAnchor, constant: 14),
             myLabelRight.trailingAnchor.constraint(equalTo: myImageViewRight.leadingAnchor, constant: -8),
 //            myLabelRight.leadingAnchor.constraint(equalTo: myLabel.trailingAnchor, constant: 8)
-            
-            
         ]
         
         descHeight = descriptionLabel.heightAnchor.constraint(equalToConstant: 0)
@@ -148,7 +140,6 @@ class MyViewCell: UITableViewCell {
     
     func setupWith(isCollapsed: Bool) {
         self.isCollapsed = isCollapsed
-        
         if isCollapsed {
             descBottom?.constant = -14
             NSLayoutConstraint.deactivate([descHeight!])
@@ -157,7 +148,4 @@ class MyViewCell: UITableViewCell {
             NSLayoutConstraint.activate([descHeight!])
         }
     }
-    
-    
-    
 }
