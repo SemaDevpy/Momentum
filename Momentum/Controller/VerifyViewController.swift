@@ -10,13 +10,12 @@ import FirebaseAuth
 
 class VerifyViewController: UIViewController {
     var timer : Timer!
-    var count = 20
+    var count = 59
     var timerCounting = true
     var phoneNumber: String = ""
     //MARK: - UIElements
     let resendLabel : UILabel = {
         let label = UILabel()
-        //        label.text = "Resend code in 29sec"
         label.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         label.font = label.font.withSize(12)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +66,6 @@ class VerifyViewController: UIViewController {
         textField.font = textField.font?.withSize(14)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.keyboardType = UIKeyboardType.phonePad
-        textField.text = "123456"
         textField.attributedPlaceholder = NSAttributedString(string: "Code",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     
@@ -143,7 +141,7 @@ class VerifyViewController: UIViewController {
             count = count - 1
             resendLabel.text = "Resend code in \(count)sec"
         }else{
-            count = 20
+            count = 59
             PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: self) { (verificationID, error) in
                 if let error = error {
                     print(error.localizedDescription)

@@ -14,6 +14,9 @@ class CreateTaskViewController: UIViewController, UITextFieldDelegate {
     var taskPriority = 1
     //MARK: - UIelements
     var stackView = UIStackView()
+    let buttonOne = UIButton()
+    let buttonTwo = UIButton()
+    let buttonThree = UIButton()
     
     let createButton : UIButton = {
         let button = UIButton()
@@ -134,42 +137,39 @@ class CreateTaskViewController: UIViewController, UITextFieldDelegate {
     func addButtonsToStackView(){
         //buttons
         let button1 : UIButton = {
-            let button = UIButton()
-            button.setTitle("Medium", for: .normal)
-            button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
-            button.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
-            button.layer.cornerRadius = 3
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.tag = 1
-            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-            return button
+            buttonOne.setTitle("Medium", for: .normal)
+            buttonOne.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
+            buttonOne.backgroundColor = UIColor(red: 0.165, green: 0.576, blue: 0.576, alpha: 1)
+            buttonOne.layer.cornerRadius = 3
+            buttonOne.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+            buttonOne.translatesAutoresizingMaskIntoConstraints = false
+            buttonOne.tag = 1
+            buttonOne.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
+            return buttonOne
         }()
         
         let button2 : UIButton = {
-            let button = UIButton()
-            button.setTitle("High", for: .normal)
-            button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-            button.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
-            button.layer.cornerRadius = 3
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            button.tag = 2
-            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-            return button
+            buttonTwo.setTitle("High", for: .normal)
+            buttonTwo.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+            buttonTwo.backgroundColor = UIColor(red: 0.765, green: 0.659, blue: 0.388, alpha: 1)
+            buttonTwo.layer.cornerRadius = 3
+            buttonTwo.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+            buttonTwo.tag = 2
+            buttonTwo.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
+            return buttonTwo
         }()
         
         
         let button3 : UIButton = {
-            let button = UIButton()
-            button.setTitle("Highest", for: .normal)
-            button.heightAnchor.constraint(equalToConstant: 37).isActive = true
-            button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
-            button.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
-            button.layer.cornerRadius = 3
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            button.tag = 3
-            button.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
-            return button
+            buttonThree.setTitle("Highest", for: .normal)
+            buttonThree.heightAnchor.constraint(equalToConstant: 37).isActive = true
+            buttonThree.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1),for: .normal)
+            buttonThree.backgroundColor = UIColor(red: 0.858, green: 0.39, blue: 0.347, alpha: 1)
+            buttonThree.layer.cornerRadius = 3
+            buttonThree.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+            buttonThree.tag = 3
+            buttonThree.addTarget(self, action: #selector(prioritytapped), for: .touchUpInside)
+            return buttonThree
         }()
         
         stackView.addArrangedSubview(button1)
@@ -186,8 +186,30 @@ class CreateTaskViewController: UIViewController, UITextFieldDelegate {
     //MARK: - Create a task event
     //Create event from three priority buttons
     @objc func prioritytapped(sender : UIButton){
-        sender.showsTouchWhenHighlighted = true
         taskPriority = sender.tag
+        switch taskPriority{
+        case 1:
+            buttonOne.layer.borderWidth = 2
+            buttonOne.layer.borderColor = UIColor.white.cgColor
+            buttonOne.showsTouchWhenHighlighted = true
+            buttonTwo.layer.borderWidth = 0
+            buttonThree.layer.borderWidth = 0
+        case 2:
+            buttonTwo.layer.borderWidth = 2
+            buttonTwo.layer.borderColor = UIColor.white.cgColor
+            buttonTwo.showsTouchWhenHighlighted = true
+            buttonOne.layer.borderWidth = 0
+            buttonThree.layer.borderWidth = 0
+        default:
+            buttonThree.layer.borderWidth = 2
+            buttonThree.layer.borderColor = UIColor.white.cgColor
+            buttonThree.showsTouchWhenHighlighted = true
+            buttonTwo.layer.borderWidth = 0
+            buttonOne.layer.borderWidth = 0
+        }
+        
+        
+        
     }
     //creating task
     @objc func createBtnTapped(){
