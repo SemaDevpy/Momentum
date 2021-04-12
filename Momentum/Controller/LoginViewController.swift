@@ -48,7 +48,6 @@ class LoginViewController: UIViewController ,UITextFieldDelegate{
         textField.keyboardType = UIKeyboardType.phonePad
         textField.attributedPlaceholder = NSAttributedString(string: "+996 000 00 00 00",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        textField.text = "+996706929120"
         return textField
     }()
     

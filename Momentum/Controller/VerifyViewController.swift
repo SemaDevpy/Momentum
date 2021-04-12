@@ -13,6 +13,7 @@ class VerifyViewController: UIViewController {
     var count = 59
     var timerCounting = true
     var phoneNumber: String = ""
+    var timerIsWorking = true
     //MARK: - UIElements
     let resendLabel : UILabel = {
         let label = UILabel()
@@ -96,7 +97,7 @@ class VerifyViewController: UIViewController {
         view.addSubview(sendCodelabel)
         view.addSubview(noCodeLabel)
         view.addSubview(resendLabel)
-        
+//        callGesture()
         sendCodelabel.text = "We’ve sent a code on your phone number :\(phoneNumber)"
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
         
@@ -135,21 +136,40 @@ class VerifyViewController: UIViewController {
     
     
     
+    //MARK: - Gesture to stop the timer
+    func callGesture(){
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:  #selector(gestureFired(_:)))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        resendLabel.addGestureRecognizer(gestureRecognizer)
+        resendLabel.isUserInteractionEnabled = true
+    }
+    
+    @objc func gestureFired(_ gesture: UITapGestureRecognizer){
+        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: self) { (verificationID, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
+        }
+        
+    }
+
+    
+    
 //MARK: - timerCounter
     @objc func timerCounter(){
         if count != 0{
             count = count - 1
-            resendLabel.text = "Resend code in \(count)sec"
+            let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+            let underlineAttributedString = NSAttributedString(string: "Resend code in \(count)sec", attributes: underlineAttribute)
+            resendLabel.attributedText = underlineAttributedString
         }else{
+            timer.invalidate()
+            callGesture()
             count = 59
-            PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: self) { (verificationID, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
-            }
-            
+            resendLabel.text = "Try again"
         }
     }
     //MARK: - Events
@@ -171,6 +191,11 @@ class VerifyViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
+    }
+    //viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.resendLabel.gestureRecognizers?.removeAll()
     }
 
 }

@@ -348,12 +348,12 @@ extension TasksViewController : UITableViewDataSource, UITableViewDelegate{
 extension TasksViewController : MainSectionHeaderDelegate{
     func didTapBackView() {
         var indexPaths = [IndexPath]()
-        for row in tasks[1].tasks.indices{
+        for row in tasks[tasks.count - 1].tasks.indices{
             let indexPath = IndexPath(row: row, section: 1)
             indexPaths.append(indexPath)
         }
-        let isExpanded = tasks[1].isExpanded
-        tasks[1].isExpanded = !isExpanded
+        let isExpanded = tasks[tasks.count - 1].isExpanded
+        tasks[tasks.count - 1].isExpanded = !isExpanded
         
         if isExpanded{
             taskTableView.deleteRows(at: indexPaths, with: .fade)
